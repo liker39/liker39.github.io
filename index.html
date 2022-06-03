@@ -1,33 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     <meta charset="utf-8" />
 
   </head>
   <body>
+    <video class="input_video"></video>
     <script>
-      let img;
-      let c;
-      function preload() {
-        // preload() runs once
-        img = loadImage('fire.png');
+      const isFlipped = true;
+
+      let keypointsHand = [];
+
+      const videoElement = document.getElementsByClassName("input_video")[0];
+      videoElement.style.display = "none";
+
+      function onHandsResults(results) {
+        keypointsHand = results.multiHandLandmarks;
       }
 
+      const hands = new Hands({
+        locateFile: (file) => {
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        },
+      });
+
+      hands.setOptions({
+        selfieMode: isFlipped,
+        maxNumHands: 1, // 今回、簡単化のため検出数の最大1つまでに制限
+        modelComplexity: 1,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+      hands.onResults(onHandsResults);
+
+      const camera = new Camera(videoElement, {
+        onFrame: async () => {
+          await hands.send({ image: videoElement });
+        },
+        width: 1280,
+        height: 720,
+      });
+      camera.start();
+
+      let videoImage;
+      let imagePNG;
+      let flag = {
+        thumb: false,
+        index: false,
+        middle: false,
+        ring: false,
+        pinky: false,
+      };
+
+
       function setup() {
-        // setup() waits until preload() is done
-        img.loadPixels();
-        // get color of middle pixel
-        c = img.get(img.width / 2, img.height / 2);
+        const canvas = createCanvas(1280, 800);
+        videoImage = createGraphics(1280, 720);
       }
 
       function draw() {
-        background(c);
-        image(img, 25, 25, 50, 50);
-      }
+        clear();
+        background("rgba(100, 100, 255, 0.2)");
 
+        videoImage.drawingContext.drawImage(
+          videoElement,
+          0,
+          0,
+          videoImage.width,
+          videoImage.height
+        );
+
+
+        // push pop ifFlippedを消すと反転する
+        push();
+        if (isFlipped) {
+          translate(width, 0);
+          scale(-1, 1);
+        }
+        displayWidth = width;
+        displayHeight = (width * videoImage.height) / videoImage.width;
+        image(videoImage, 0, 0, displayWidth, displayHeight);
+        pop();
+
+        if (keypointsHand.length > 0) {
+          // 親指と人差し指の先は、4 と 8
+          // 中指と薬指と小指は、12 と 16 と 20
+          // 中指と小指の根元は 9 と 17
+          const tip = {
+            thumb: keypointsHand[0][4],
+            index: keypointsHand[0][8],
+            middle: keypointsHand[0][12],
+            ring: keypointsHand[0][16],
+            pinky: keypointsHand[0][20],
+          };
+          const mcp = {
+            middle: keypointsHand[0][9],
+            pinky: keypointsHand[0][17],
+          };
+
+          const distance = {
+            index: dist(mcp.middle.x, mcp.middle.y, tip.index.x, tip.index.y),
+            middle: dist(mcp.middle.x, mcp.middle.y, tip.middle.x, tip.middle.y),
+            ring: dist(mcp.pinky.x, mcp.pinky.y, tip.ring.x, tip.ring.y),
+            pinky: dist(mcp.pinky.x, mcp.pinky.y, tip.pinky.x, tip.pinky.y),
+            thumb: dist(mcp.pinky.x, mcp.pinky.y, tip.thumb.x, tip.thumb.y),
+          };
+
+          for (const property in distance) {
+            if (distance[property] > 0.15) {
+              flag[property] = true;
+            }
+            if (flag[property]) {
+              drawFire(tip[property], displayWidth, displayHeight);
+            }
+          }
+          if (!Object.values(flag).includes(false)) {
+            // 実装予定のものあり
+          }
+          // push();
+          fill(0, 0, 0);
+          rect(5, 5, 270, 80);
+          textSize(14);
+          fill(255, 255, 255);
+          text("手をグーの状態でカメラにうつして", 20, 30);
+          text("指を1本ずつ指を立ててください。", 20, 50);
+          text("rキーで表示がリセットされます。", 20, 70);
+          // pop();
+        }
+
+
+        // function preload() {
+        //   imagePNG = loadImage("./fire.png");
+        // }
+
+        function drawFire(position, inputWidth, inputHeight) {
+          // ellipse(position.x * inputWidth, position.y * inputHeight, 10);
+          push();
+          imageMode(CENTER);
+          tint(255, 128);
+          image(
+            imagePNG,
+            position.x * inputWidth,
+            position.y * inputHeight,
+            imagePNG.width * 0.15,
+            imagePNG.height * 0.15
+          );
+
+          // var w = width;
+          // var h = height;
+          // // noLoop();
+          // noFill();
+          // for(i=0;i<100;i++){
+          //   var x = new Array(4);
+          //   for(j = 0; j < 4; j++){
+          //     x[j] = random();
+          //   }
+          //   stroke(color(x[0] * 255,x[1] * 255,x[2] * 255, 30));
+          //   bezier(w/2, h/2, x[0] * w, x[1] * h, x[2] * w, x[3] * h, w/2, h/2);
+          // }
+
+          pop();
+        }
+
+        // リセット用　グーの状態でrが押されたとき
+        document.addEventListener('keydown', (event) => {
+          if (event.key === "r") {
+            for (const property in flag) {
+              flag[property] = false;
+            }
+          }
+        });
+      }
     </script>
+
+
+
   </body>
 </html>
