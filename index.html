@@ -95,42 +95,82 @@
       image(videoImage, 0, 0, displayWidth, displayHeight);
       pop();
 
+
+      //
+      //
+      // ここから条件分岐
+      //
+      //
+
       if (keypointsHand.length > 0) {
-        // 親指と人差し指の先は、4 と 8
-        // 中指と薬指と小指は、12 と 16 と 20
-        // 中指と小指の根元は 9 と 17
-        const tip = {
-          thumb: keypointsHand[0][4],
-          index: keypointsHand[0][8],
-          middle: keypointsHand[0][12],
-          ring: keypointsHand[0][16],
-          pinky: keypointsHand[0][20],
-        };
-        const mcp = {
-          middle: keypointsHand[0][9],
-          pinky: keypointsHand[0][17],
-        };
+        const pos = keypointsHand[0][9]
 
+        const size = {
+          bottom_pinky: keypointsHand[0][0]
+          thumb_bottom: keypointsHand[0][2]
+          index_bottom: keypointsHand[0][5]
+          pinky_bottom: keypointsHand[0][17]
+        }
+
+        const display_distance = dist(0, 0, displayWidth, displayHeight)
         const distance = {
-          index: dist(mcp.middle.x, mcp.middle.y, tip.index.x, tip.index.y),
-          middle: dist(mcp.middle.x, mcp.middle.y, tip.middle.x, tip.middle.y),
-          ring: dist(mcp.pinky.x, mcp.pinky.y, tip.ring.x, tip.ring.y),
-          pinky: dist(mcp.pinky.x, mcp.pinky.y, tip.pinky.x, tip.pinky.y),
-          thumb: dist(mcp.pinky.x, mcp.pinky.y, tip.thumb.x, tip.thumb.y),
-        };
+          vertical: dist(bottom_pinky.x, bottom_pinky.y, index_bottom.x, index_bottom.y)
+          horizontal: dist(thumb_bottom.x, thumb_bottom.x, pinky_bottom.x, pinky_bottom.y)
+        }
 
-        for (const property in distance) {
-          if (distance[property] > 0.15) {
-            flag[property] = true;
-          }
-          if (flag[property]) {
-            drawFire(tip[property], displayWidth, displayHeight);
-          }
-        }
-        if (!Object.values(flag).includes(false)) {
-          // 実装予定のものあり
-        }
+        const rate = Math.max(distance)/display_distance
+
+        push();
+        imageMode(CENTER); // 中心座標を基準に設定
+        // tint(255, 128); // gray+A
+        image(
+          imagePNG,
+          pos.x * inputWidth, // x座標
+          pos.y * inputHeight, // y座標
+          imagePNG.width * rate, // 横サイズ
+          imagePNG.height * rate // 縦サイズ
+        );
+        pop();
+
+
       }
+
+      // if (keypointsHand.length > 0) {
+      //   // 親指と人差し指の先は、4 と 8
+      //   // 中指と薬指と小指は、12 と 16 と 20
+      //   // 中指と小指の根元は 9 と 17
+      //   const tip = {
+      //     thumb: keypointsHand[0][4],
+      //     index: keypointsHand[0][8],
+      //     middle: keypointsHand[0][12],
+      //     ring: keypointsHand[0][16],
+      //     pinky: keypointsHand[0][20],
+      //   };
+      //   const mcp = {
+      //     middle: keypointsHand[0][9],
+      //     pinky: keypointsHand[0][17],
+      //   };
+      //
+      //   const distance = {
+      //     index: dist(mcp.middle.x, mcp.middle.y, tip.index.x, tip.index.y),
+      //     middle: dist(mcp.middle.x, mcp.middle.y, tip.middle.x, tip.middle.y),
+      //     ring: dist(mcp.pinky.x, mcp.pinky.y, tip.ring.x, tip.ring.y),
+      //     pinky: dist(mcp.pinky.x, mcp.pinky.y, tip.pinky.x, tip.pinky.y),
+      //     thumb: dist(mcp.pinky.x, mcp.pinky.y, tip.thumb.x, tip.thumb.y),
+      //   };
+      //
+      //   for (const property in distance) {
+      //     if (distance[property] > 0.15) {
+      //       flag[property] = true;
+      //     }
+      //     if (flag[property]) {
+      //       drawFire(tip[property], displayWidth, displayHeight);
+      //     }
+      //   }
+      //   if (!Object.values(flag).includes(false)) {
+      //     // 実装予定のものあり
+      //   }
+      // }
 
       push();
       fill(0, 0, 0);
