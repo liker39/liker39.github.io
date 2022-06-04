@@ -118,7 +118,7 @@
           horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.x, size.pinky_bottom.x, size.pinky_bottom.y),
         };
 
-        rate = Math.max(distance.vertical,distance.horizontal)/display_distance;
+        const rate = Math.max(distance.vertical,distance.horizontal)/display_distance;
 
         push();
         imageMode(CENTER); // 中心座標を基準に設定
