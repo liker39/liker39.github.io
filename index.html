@@ -115,7 +115,7 @@
         const display_distance = dist(0, 0, displayWidth, displayHeight);
         const distance = {
           vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
-          horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.x, size.pinky_bottom.x, size.pinky_bottom.y),
+          horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
         };
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
