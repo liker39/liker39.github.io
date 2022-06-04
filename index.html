@@ -103,22 +103,22 @@
       //
 
       if (keypointsHand.length > 0) {
-        const pos = keypointsHand[0][9]
+        const pos = keypointsHand[0][9];
 
         const size = {
           bottom_pinky: keypointsHand[0][0]
           thumb_bottom: keypointsHand[0][2]
           index_bottom: keypointsHand[0][5]
           pinky_bottom: keypointsHand[0][17]
-        }
+        };
 
-        const display_distance = dist(0, 0, displayWidth, displayHeight)
+        const display_distance = dist(0, 0, displayWidth, displayHeight);
         const distance = {
           vertical: dist(bottom_pinky.x, bottom_pinky.y, index_bottom.x, index_bottom.y)
           horizontal: dist(thumb_bottom.x, thumb_bottom.x, pinky_bottom.x, pinky_bottom.y)
-        }
+        };
 
-        const rate = Math.max(distance)/display_distance
+        const rate = Math.max(distance)/display_distance;
 
         push();
         imageMode(CENTER); // 中心座標を基準に設定
