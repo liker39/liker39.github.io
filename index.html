@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" type="text/css" href="style.css">
-  
+
   <meta charset="utf-8" />
 </head>
 
@@ -48,8 +48,8 @@
       onFrame: async () => {
         await hands.send({ image: videoElement });
       },
-      width: 1280,
-      height: 720,
+      width: 960,
+      height: 540,
     });
     camera.start();
 
@@ -64,12 +64,12 @@
     };
 
     function preload() {
-      imagePNG = loadImage("./fire.png");
+      imagePNG = loadImage("./magic.png");
     }
 
     function setup() {
-      createCanvas(1280, 720);
-      videoImage = createGraphics(1280, 720);
+      createCanvas(width, height);
+      videoImage = createGraphics(width, height);
     }
 
     function draw() {
@@ -146,14 +146,14 @@
     function drawFire(position, inputWidth, inputHeight) {
       // ellipse(position.x * inputWidth, position.y * inputHeight, 10);
       push();
-      imageMode(CENTER);
-      tint(255, 128);
+      imageMode(CENTER); // 中心座標を基準に設定
+      // tint(255, 128); // gray+A
       image(
         imagePNG,
-        position.x * inputWidth,
-        position.y * inputHeight,
-        imagePNG.width * 0.15,
-        imagePNG.height * 0.15
+        position.x * inputWidth, // x座標
+        position.y * inputHeight, // y座標
+        imagePNG.width * 0.15, // 横サイズ
+        imagePNG.height * 0.15 // 縦サイズ
       );
       pop();
     }
