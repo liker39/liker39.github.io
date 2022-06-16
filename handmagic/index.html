@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <video class="input_video"></video>
+  <script>
+    // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
+    const isFlipped = true;
+
+    let keypointsHand = [];
+
+    const videoElement = document.getElementsByClassName("input_video")[0];
+    videoElement.style.display = "none";
+
+    function onHandsResults(results) {
+      keypointsHand = results.multiHandLandmarks;
+    }
+
+    const hands = new Hands({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+      },
+    });
+
+    hands.setOptions({
+      selfieMode: isFlipped,
+      maxNumHands: 1, // 最大1つに制限
+      modelComplexity: 1,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+    hands.onResults(onHandsResults);
+
+    const camera = new Camera(videoElement, {
+      onFrame: async () => {
+        await hands.send({ image: videoElement });
+      },
+      width: 960,
+      height: 540,
+    });
+    camera.start();
+
+    let imagePNG;
+    let videoImage;
+    let flag = {
+      thumb: false,
+      index: false,
+      middle: false,
+      ring: false,
+      pinky: false,
+    };
+
+    function preload() {
+      imagePNG = loadImage("./magic.PNG");
+    }
+
+    function setup() {
+      createCanvas(1280, 760);
+      videoImage = createGraphics(1280, 760);
+    }
+
+    function draw() {
+      clear();
+      background("rgba(100, 100, 255, 0.2)");
+
+      videoImage.drawingContext.drawImage(
+        videoElement,
+        0,
+        0,
+        videoImage.width,
+        videoImage.height
+      );
+
+      push();
+      if (isFlipped) {
+        translate(width, 0);
+        scale(-1, 1);
+      }
+      // image(videoImage, 0, 0);
+      displayWidth = width;
+      displayHeight = (width * videoImage.height) / videoImage.width;
+      image(videoImage, 0, 0, displayWidth, displayHeight);
+      pop();
+
+
+      //
+      //
+      // ここから条件分岐
+      //
+      //
+
+      if (keypointsHand.length > 0) {
+        const pos = keypointsHand[0][9];
+
+        const size = {
+          bottom_pinky: keypointsHand[0][0],
+          thumb_bottom: keypointsHand[0][2],
+          index_bottom: keypointsHand[0][5],
+          pinky_bottom: keypointsHand[0][17],
+        };
+
+        const display_distance = dist(0, 0, displayWidth, displayHeight);
+        const distance = {
+          vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
+          horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
+        };
+
+        const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
+
+        push();
+        imageMode(CENTER); // 中心座標を基準に設定
+        // tint(255, 128); // gray+A
+        image(
+          imagePNG,
+          pos.x * displayWidth, // x座標
+          pos.y * displayHeight, // y座標
+          imagePNG.width * rate, // 横サイズ
+          imagePNG.height * rate // 縦サイズ
+        );
+        pop();
+
+
+      }
+
+      // if (keypointsHand.length > 0) {
+      //   // 親指と人差し指の先は、4 と 8
+      //   // 中指と薬指と小指は、12 と 16 と 20
+      //   // 中指と小指の根元は 9 と 17
+      //   const tip = {
+      //     thumb: keypointsHand[0][4],
+      //     index: keypointsHand[0][8],
+      //     middle: keypointsHand[0][12],
+      //     ring: keypointsHand[0][16],
+      //     pinky: keypointsHand[0][20],
+      //   };
+      //   const mcp = {
+      //     middle: keypointsHand[0][9],
+      //     pinky: keypointsHand[0][17],
+      //   };
+      //
+      //   const distance = {
+      //     index: dist(mcp.middle.x, mcp.middle.y, tip.index.x, tip.index.y),
+      //     middle: dist(mcp.middle.x, mcp.middle.y, tip.middle.x, tip.middle.y),
+      //     ring: dist(mcp.pinky.x, mcp.pinky.y, tip.ring.x, tip.ring.y),
+      //     pinky: dist(mcp.pinky.x, mcp.pinky.y, tip.pinky.x, tip.pinky.y),
+      //     thumb: dist(mcp.pinky.x, mcp.pinky.y, tip.thumb.x, tip.thumb.y),
+      //   };
+      //
+      //   for (const property in distance) {
+      //     if (distance[property] > 0.15) {
+      //       flag[property] = true;
+      //     }
+      //     if (flag[property]) {
+      //       drawFire(tip[property], displayWidth, displayHeight);
+      //     }
+      //   }
+      //   if (!Object.values(flag).includes(false)) {
+      //     // 実装予定のものあり
+      //   }
+      // }
+
+      // push();
+      // fill(0, 0, 0);
+      // rect(5, 5, 270, 80);
+      // textSize(14);
+      // fill(255, 255, 255);
+      // text("手をグーの状態でカメラにうつして", 20, 30);
+      // text("指を1本ずつ指を立ててください。", 20, 50);
+      // text("rキーで表示がリセットされます。", 20, 70);
+      // pop();
+    }
+
+    function drawFire(position, inputWidth, inputHeight) {
+      // ellipse(position.x * inputWidth, position.y * inputHeight, 10);
+      push();
+      imageMode(CENTER); // 中心座標を基準に設定
+      // tint(255, 128); // gray+A
+      image(
+        imagePNG,
+        position.x * inputWidth, // x座標
+        position.y * inputHeight, // y座標
+        imagePNG.width * 0.15, // 横サイズ
+        imagePNG.height * 0.15 // 縦サイズ
+      );
+      pop();
+    }
+
+    // リセット用　グーの状態でrが押されたとき
+    document.addEventListener('keydown', (event) => {
+      if (event.key === "r") {
+        for (const property in flag) {
+          flag[property] = false;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
