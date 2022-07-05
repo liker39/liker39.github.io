@@ -6,8 +6,8 @@
   <title>video要素、audio要素をJavaScriptから操作する　サンプル</title>
 </head>
 
-<body onLoad="getDuration()">
-  <video id="video" width="400" height="300">
+<body>
+  <video id="video" width="400" height="300" controls>
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
   <div style="width:400px; background-color:#333333; color:#ffffff;">
@@ -16,10 +16,17 @@
     現在（秒）：<span id="ichi">0</span><br>
     全体（秒）：<span id="nagasa"></span><br>
     <span id="kanryou"></span>
+
+    <button id="prev-frame" onClick="frameVideo()">戻る</button>
+    <button id="next-frame" onClick="frameVideo()">進む</button>
+
   </div>
 
   <script type="text/javascript">
     var v = document.getElementById("video");
+    var prevFrame = document.getElementById('prev-frame');
+    var nextFrame = document.getElementById('next-frame');
+    var frameRate = 1/30;
 
     function getDuration() {
       //動画の長さ（秒）を表示
@@ -27,9 +34,6 @@
     }
 
     function playVideo() {
-      //再生完了の表示をクリア
-      document.getElementById("kanryou").innerHTML = "";
-
       //動画を再生
       v.play();
 
@@ -38,9 +42,8 @@
         document.getElementById("ichi").innerHTML = v.currentTime;
       }, false);
 
-      //再生完了を知らせる
+      //連続再生を行う
       v.addEventListener("ended", function(){
-        document.getElementById("kanryou").innerHTML = "動画の再生が完了しました。";
         v.play();
       }, false);
     }
@@ -48,6 +51,22 @@
     function pauseVideo() {
       //動画を一時停止
       v.pause();
+    }
+
+    function frameVideo() {
+      video.onloadedmetadata = function(){
+        //next
+        nextFrame.addEventListener('click',function(){
+            console.log('pushed next');
+            video.currentTime = Math.min(video.duration, video.currentTime+frameRate);
+        });
+
+        //prev
+        prevFrame.addEventListener('click',function(){
+            console.log('pushed prev');
+            video.currentTime = Math.max(0, video.currentTime-frameRate);
+        });
+      } 
     }
 
   </script>
