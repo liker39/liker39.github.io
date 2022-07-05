@@ -12,6 +12,7 @@
   </video>
   
   <canvas id="my-canvas" width="400" height="400"></canvas>
+  
   <!-- <video id="video" width="400" height="300" controls>
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
@@ -28,7 +29,9 @@
   </div> -->
 
   <script type="text/javascript">
+    processor.doLoad()
     var processor = {
+      
       timerCallback: function() {
         if (this.video.paused || this.video.ended) {
           return;
@@ -68,6 +71,8 @@
         this.ctx1.putImageData(frame, 0, 0);
 
         return;
+      }
+      
     }
     // var v = document.getElementById("video");
     // var prevFrame = document.getElementById('prev-frame');
