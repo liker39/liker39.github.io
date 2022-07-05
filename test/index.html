@@ -2,35 +2,51 @@
 <html lang="ja">
 
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-
-  <link rel="stylesheet" type="text/css" href="style.css">
-
-  <meta charset="utf-8" />
+  <meta charset=utf-8>
+  <title>video要素、audio要素をJavaScriptから操作する　サンプル</title>
 </head>
 
-<body>
-  <!-- <video class="input_video"></video> -->
-  <video id="video" src="./Icon_B535_monsyo_A_800_800_green.mp4">
-    <p>ご使用のブラウザでは動画再生に対応していません</p>
+<body onLoad="getDuration()">
+  <video id="video" width="400" height="300">
+    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
+  <div style="width:400px; background-color:#333333; color:#ffffff;">
+    <input type="button" value="再生" onClick="playVideo()">
+    <input type="button" value="一時停止" onClick="pauseVideo()">
+    現在（秒）：<span id="ichi">0</span><br>
+    全体（秒）：<span id="nagasa"></span><br>
+    <span id="kanryou"></span>
+  </div>
 
-  <script>
-    
-    var v = document.getElementById('video');
-    //再生
-    v.play();
-    //一時停止
-    v.pause();
-    //ロード
-    v.load();
-  
+  <script type="text/javascript">
+    var v = document.getElementById("video");
+
+    function getDuration() {
+      //動画の長さ（秒）を表示
+      document.getElementById("nagasa").innerHTML = v.duration;
+    }
+
+    function playVideo() {
+      //再生完了の表示をクリア
+      document.getElementById("kanryou").innerHTML = "";
+      //動画を再生
+      v.play();
+      //現在の再生位置（秒）を表示
+      v.addEventListener("timeupdate", function(){
+        document.getElementById("ichi").innerHTML = v.currentTime;
+      }, false);
+      //再生完了を知らせる
+      v.addEventListener("ended", function(){
+        document.getElementById("kanryou").innerHTML = "動画の再生が完了しました。";
+      }, false);
+    }
+
+    function pauseVideo() {
+      //動画を一時停止
+      v.pause();
+    }
+
   </script>
-</body>
 
+</body> 
 </html>
