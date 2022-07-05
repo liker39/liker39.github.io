@@ -7,7 +7,12 @@
 </head>
 
 <body>
-  <video id="video" width="400" height="300" controls>
+  <video id="video" controls="true" width="400" height="400">
+    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
+  </video>
+  
+  <canvas id="my-canvas" width="400" height="400"></canvas>
+  <!-- <video id="video" width="400" height="300" controls>
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
   <div style="width:400px; background-color:#333333; color:#ffffff;">
@@ -20,52 +25,93 @@
     <button id="prev-frame">戻る</button>
     <button id="next-frame">進む</button>
 
-  </div>
+  </div> -->
 
   <script type="text/javascript">
-    var v = document.getElementById("video");
-    var prevFrame = document.getElementById('prev-frame');
-    var nextFrame = document.getElementById('next-frame');
-    var frameRate = 1/30;
+    var processor = {
+      timerCallback: function() {
+        if (this.video.paused || this.video.ended) {
+          return;
+        }
+        this.computeFrame();
+        var self = this;
+        setTimeout(function () {
+          self.timerCallback();
+        }, 16); // roughly 60 frames per second
+      },
 
-    function getDuration() {
-      //動画の長さ（秒）を表示
-      document.getElementById("nagasa").innerHTML = v.duration;
+      doLoad: function() {
+        this.video = document.getElementById("video");
+        this.c1 = document.getElementById("my-canvas");
+        this.ctx1 = this.c1.getContext("2d");
+        var self = this;
+
+        this.video.addEventListener("play", function() {
+          self.width = self.video.width;
+          self.height = self.video.height;
+          self.timerCallback();
+        }, false);
+      },
+
+      computeFrame: function() {
+        this.ctx1.drawImage(this.video, 0, 0, this.width, this.height);
+        var frame = this.ctx1.getImageData(0, 0, this.width, this.height);
+        var l = frame.data.length / 4;
+
+        for (var i = 0; i < l; i++) {
+          var grey = (frame.data[i * 4 + 0] + frame.data[i * 4 + 1] + frame.data[i * 4 + 2]) / 3;
+
+          frame.data[i * 4 + 0] = grey;
+          frame.data[i * 4 + 1] = grey;
+          frame.data[i * 4 + 2] = grey;
+        }
+        this.ctx1.putImageData(frame, 0, 0);
+
+        return;
     }
+    // var v = document.getElementById("video");
+    // var prevFrame = document.getElementById('prev-frame');
+    // var nextFrame = document.getElementById('next-frame');
+    // var frameRate = 1/30;
 
-    function playVideo() {
-      //動画を再生
-      v.play();
+    // function getDuration() {
+    //   //動画の長さ（秒）を表示
+    //   document.getElementById("nagasa").innerHTML = v.duration;
+    // }
 
-      //現在の再生位置（秒）を表示
-      v.addEventListener("timeupdate", function(){
-        document.getElementById("ichi").innerHTML = v.currentTime;
-      }, false);
+    // function playVideo() {
+    //   //動画を再生
+    //   v.play();
 
-      //連続再生を行う
-      v.addEventListener("ended", function(){
-        v.play();
-      }, false);
-    }
+    //   //現在の再生位置（秒）を表示
+    //   v.addEventListener("timeupdate", function(){
+    //     document.getElementById("ichi").innerHTML = v.currentTime;
+    //   }, false);
 
-    function pauseVideo() {
-      //動画を一時停止
-      v.pause();
-    }
+    //   //連続再生を行う
+    //   v.addEventListener("ended", function(){
+    //     v.play();
+    //   }, false);
+    // }
 
-    video.onloadedmetadata = function(){
-      //next
-      nextFrame.addEventListener('click',function(){
-          console.log('pushed next');
-          video.currentTime = Math.min(video.duration, video.currentTime+frameRate);
-      });
+    // function pauseVideo() {
+    //   //動画を一時停止
+    //   v.pause();
+    // }
 
-      //prev
-      prevFrame.addEventListener('click',function(){
-          console.log('pushed prev');
-          video.currentTime = Math.max(0, video.currentTime-frameRate);
-      });
-    } 
+    // video.onloadedmetadata = function(){
+    //   //next
+    //   nextFrame.addEventListener('click',function(){
+    //       console.log('pushed next');
+    //       video.currentTime = Math.min(video.duration, video.currentTime+frameRate);
+    //   });
+
+    //   //prev
+    //   prevFrame.addEventListener('click',function(){
+    //       console.log('pushed prev');
+    //       video.currentTime = Math.max(0, video.currentTime-frameRate);
+    //   });
+    // } 
 
   </script>
 
