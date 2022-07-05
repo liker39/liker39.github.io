@@ -6,7 +6,7 @@
   <title>video要素、audio要素をJavaScriptから操作する　サンプル</title>
 </head>
 
-<body onLoad="getDuration()">
+<body preLoad="getDuration()">
   <video id="video" width="400" height="300">
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
@@ -29,15 +29,19 @@
     function playVideo() {
       //再生完了の表示をクリア
       document.getElementById("kanryou").innerHTML = "";
+
       //動画を再生
       v.play();
+
       //現在の再生位置（秒）を表示
       v.addEventListener("timeupdate", function(){
         document.getElementById("ichi").innerHTML = v.currentTime;
       }, false);
+
       //再生完了を知らせる
       v.addEventListener("ended", function(){
         document.getElementById("kanryou").innerHTML = "動画の再生が完了しました。";
+        v.play();
       }, false);
     }
 
