@@ -45,22 +45,14 @@
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
         for(var i = 0; i < (imageData.width*imageData.height); i++) {
-          if((imageData.data[i*4] < 30) &&
-            (imageData.data[i*4+1] > 220) &&
-            (imageData.data[i*4+2] < 30)) {
+          if((imageData.data[i*4] < 50) &&
+            (imageData.data[i*4+1] > 200) &&
+            (imageData.data[i*4+2] < 50)) {
               imageData.data[i*4+3] = 0;
           }
         }   
-        // const data = imageData.data;
-
-        // for (let i = 0; i < data.length; i += 4) {
-        //   const ave = Math.round((data[i] + data[i + 1] + data[i + 2]) / 3);
-
-        //   data[i] = data[i + 1] = data[i + 2] = ave;
-        // }
 
         ctx.putImageData(imageData, 0, 0);
-
 
       }, 1000/30);
     }
