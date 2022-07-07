@@ -16,8 +16,18 @@
 
 <body>
   <video class="input_video"></video>
+
+  <video id="v" controls="true" width="400" height="400" crossorigin="anonymous" loop="true">
+    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
+  </video>
+
+  <canvas id="c" width="400px" height="400px"></canvas>
+
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
+
+    var video = document.getElementById("v");
+
     const isFlipped = true;
 
     let keypointsHand = [];
@@ -72,9 +82,20 @@
       videoImage = createGraphics(1280, 760);
     }
 
+    function getMyVideo() {
+      var a_canvas = document.getElementById('c');
+      if (a_canvas.getContext) {
+        var ctx = a_canvas.getContext('2d');
+
+        return document.getElementById('v');
+      }
+    }
+
     function draw() {
       clear();
       background("rgba(100, 100, 255, 0.2)");
+
+      
 
       videoImage.drawingContext.drawImage(
         videoElement,
@@ -120,15 +141,28 @@
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
+        a_image = getMyVideo()
+        // push();
+        // imageMode(CENTER); // 中心座標を基準に設定
+        // // tint(255, 128); // gray+A
+        // image(
+        //   imagePNG,
+        //   pos.x * displayWidth, // x座標
+        //   pos.y * displayHeight, // y座標
+        //   imagePNG.width * rate, // 横サイズ
+        //   imagePNG.height * rate // 縦サイズ
+        // );
+        // pop();
+
         push();
         imageMode(CENTER); // 中心座標を基準に設定
         // tint(255, 128); // gray+A
         image(
-          imagePNG,
-          pos.x * displayWidth, // x座標
-          pos.y * displayHeight, // y座標
-          imagePNG.width * rate, // 横サイズ
-          imagePNG.height * rate // 縦サイズ
+          a_image,
+          400, // x座標
+          400, // y座標
+          a_image.width * 0.5, // 横サイズ
+          a_image.height * 0.5 // 縦サイズ
         );
         pop();
 
