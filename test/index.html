@@ -3,19 +3,15 @@
 
 <head>
   <meta charset=utf-8>
-  <title>video要素、audio要素をJavaScriptから操作する　サンプル</title>
-  <style>
-    * { padding: 0; margin: 0; }
-    canvas { background: #eee; display: block; margin: 0 auto; }
-  </style>
+  <title>無題ドキュメント</title>
 </head>
 
 <body>
   <video id="intputVideo" controls="true" width="400" height="400">
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
-  
-  <canvas id="output" width="400" height="400"></canvas>
+  <button onClick="outputVideo2()">output</button>
+  <canvas id="c" width="400px" height="400px"></canvas>
   
   <!-- <video id="video" width="400" height="300" controls>
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
@@ -33,60 +29,13 @@
   </div> -->
 
   <script type="text/javascript">
-    // HTML要素取得
-    let output = document.getElementById('output');
+    function outputVideo2(){
+    var video = document.getElementById("v");
 
-    // 動画加工用イベント追加
-    inputVideo.addEventListener("loadedmetadata", processVideo, false);
-
-
-    // 関数2　「ファイル読み込み」 選択された動画が読み込まれたら実行、動画加工
-    async function processVideo() {
-        videoProcessor.videoInitialize();
-    }
-
-
-
-    // オブジェクト　「動画加工」　動画再生と並行して動画加工してcanvasに描く
-    const videoProcessor = {
-        // 関数3　「初期化」 動画処理の準備
-        videoInitialize: function() {
-            this.video = document.getElementById("inputVideo");
-            this.c1 = canvas.getElementById("output");
-            this.ctx1 = this.c1.getContext("2d");
-            let self = this;
-            //videoが再生されたら加工を始めるためのイベントを追加
-            this.video.addEventListener("play", function() {
-              self.width = self.video.width;
-              self.height = self.video.height;
-              requestAnimationFrame(self.timerCallback.bind(self));
-            }, false);
-          },
-
-        // 関数4　「フレーム更新」 枚フレーム処理を行う
-        timerCallback: function() {
-            if (this.video.paused || this.video.ended) {return;}
-            this.computeFrame();
-            let self = this;
-            requestAnimationFrame(self.timerCallback.bind(self));
-            return;
-        },
-      
-        // 関数5　「画像処理」 フレームを取得して画像処理を行う
-        computeFrame: function() {
-          this.ctx1.drawImage(this.video, 0, 0, this.width, this.height);
-          let frame = this.ctx1.getImageData(0, 0, this.width, this.height);
-      
-          for (let i = 0; i < (frame.data.length / 4); i++) { // frameにはRGBAが1次元で並んでいるので4ずつ回す
-            let grey = (frame.data[i * 4 + 0] + frame.data[i * 4 + 1] + frame.data[i * 4 + 2]) / 3; //RGB平均
-            frame.data[i * 4 + 0] = grey;
-            frame.data[i * 4 + 1] = grey;
-            frame.data[i * 4 + 2] = grey;
-          }
-          this.ctx1.putImageData(frame, 0, 0);
-          return;
-        }
-      
+    setInterval(function(){
+      var canvas = document.getElementById("c");
+      canvas.getContext("2d").drawImage(video, 0, 0, 480, 270);
+    }, 1000/30);
     }
     // var v = document.getElementById("video");
     // var prevFrame = document.getElementById('prev-frame');
