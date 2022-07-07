@@ -35,6 +35,8 @@
   <script type="text/javascript">
     function outputVideo2(){
       var video = document.getElementById("v");
+      //連続再生を行う
+      
       
       setInterval(function(){
         var canvas = document.getElementById("c");
@@ -50,22 +52,30 @@
             (imageData.data[i*4+2] < 90)) {
               imageData.data[i*4+3] = 0;
               // 上下左右も透過しておく
-              if(i-canvas.width < 0) {
+              if(i-canvas.width > 0) {
+                // imageData.data[(i-canvas.width*2)*4+3] = 0; //上
                 imageData.data[(i-canvas.width)*4+3] = 0; //上
               }
-              if(i+canvas.width > (imageData.width*imageData.height)) {
+              if(i+canvas.width < (imageData.width*imageData.height)) {
+                // imageData.data[(i+canvas.width*2)*4+3] = 0; //下
                 imageData.data[(i+canvas.width)*4+3] = 0; //下
               }
-              if(i-1 < 0) {
-                imageData.data[(i-1)*4+3] = 0;
+              if(i-1 > 0) {
+                // imageData.data[(i-2)*4+3] = 0; // 左
+                imageData.data[(i-1)*4+3] = 0; // 左
               }
-              if(i+1 > (imageData.width*imageData.height)) {
-                imageData.data[(i+1)*4+3] = 0;
+              if(i+1 < (imageData.width*imageData.height)) {
+                // imageData.data[(i+2)*4+3] = 0; // 右
+                imageData.data[(i+1)*4+3] = 0; // 右
               }
           }
         }   
 
         ctx.putImageData(imageData, 0, 0);
+
+        video.addEventListener("ended", function(){
+          video.play();
+        }, false);
 
       }, 1000/30);
     }
