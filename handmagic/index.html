@@ -79,7 +79,10 @@
 
     function draw() {
       clear();
-      background("rgba(100, 100, 255, 0.2)");
+      background("rgba(100, 100, 255, 0.5)");
+
+      magic.loadPixels();
+      console.log(magic.loadPixels());
 
       videoImage.drawingContext.drawImage(
         videoElement,
