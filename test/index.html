@@ -6,7 +6,7 @@
   <title>無題ドキュメント</title>
   <style>
     /* * { padding: 0; margin: 0; } */
-    canvas { background: rgb(226, 255, 169);}
+    canvas { background: rgb(255, 132, 132);}
   </style>
 </head>
 
@@ -45,9 +45,9 @@
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
         for(var i = 0; i < (imageData.width*imageData.height); i++) {
-          if((imageData.data[i*4] < 20) &&
-            (imageData.data[i*4+1] > 230) &&
-            (imageData.data[i*4+2] < 20)) {
+          if((imageData.data[i*4] < 30) &&
+            (imageData.data[i*4+1] > 220) &&
+            (imageData.data[i*4+2] < 30)) {
               imageData.data[i*4+3] = 0;
           }
         }   
