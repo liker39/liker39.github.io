@@ -82,7 +82,17 @@
       background("rgba(100, 100, 255, 0.5)");
 
       magic.loadPixels();
-      console.log(magic.pixels);
+      // console.log(magic.pixels);
+
+      const imageData = magic.pixels
+
+      for(var i = 0; i < (imageData.width*imageData.height); i++) {
+        if((imageData.data[i*4] < 90) &&
+          (imageData.data[i*4+1] > 180) &&
+          (imageData.data[i*4+2] < 90)) {
+            imageData.data[i*4+3] = 0;
+        }
+      }   
 
       videoImage.drawingContext.drawImage(
         videoElement,
@@ -128,6 +138,7 @@
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
+        console.log(imagePNG);
         push();
         imageMode(CENTER); // 中心座標を基準に設定
         // tint(255, 128); // gray+A
