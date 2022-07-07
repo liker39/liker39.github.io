@@ -6,7 +6,7 @@
   <title>video要素、audio要素をJavaScriptから操作する　サンプル</title>
   <style>
     * { padding: 0; margin: 0; }
-    canvas { background: rgb(221, 174, 174); display: block; margin: 0 auto; }
+    canvas { background: #eee; display: block; margin: 0 auto; }
   </style>
 </head>
 
@@ -15,7 +15,7 @@
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
   
-  <canvas id="output" width="800" height="400"></canvas>
+  <canvas id="output" width="400" height="400"></canvas>
   
   <!-- <video id="video" width="400" height="300" controls>
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
@@ -34,7 +34,7 @@
 
   <script type="text/javascript">
     // HTML要素取得
-    let output = document.getElementById('output');
+    
 
     // 動画加工用イベント追加
     inputVideo.addEventListener("loadedmetadata", processVideo, false);
@@ -52,7 +52,7 @@
         // 関数3　「初期化」 動画処理の準備
         videoInitialize: function() {
             this.video = document.getElementById("inputVideo");
-            this.c1 = document.getElementById("output");
+            this.c1 = canvas.getElementById("output");
             this.ctx1 = this.c1.getContext("2d");
             let self = this;
             //videoが再生されたら加工を始めるためのイベントを追加
