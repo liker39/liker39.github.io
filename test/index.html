@@ -45,9 +45,9 @@
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
         for(var i = 0; i < (imageData.width*imageData.height); i++) {
-          if((imageData.data[i*4] < 10) &&
-            (imageData.data[i*4+1] > 240) &&
-            (imageData.data[i*4+2] < 10)) {
+          if((imageData.data[i*4] < 20) &&
+            (imageData.data[i*4+1] > 230) &&
+            (imageData.data[i*4+2] < 20)) {
               imageData.data[i*4+3] = 0;
           }
         }   
