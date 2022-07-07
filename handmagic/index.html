@@ -81,19 +81,6 @@
       clear();
       background("rgba(100, 100, 255, 0.5)");
 
-      magic.loadPixels();
-      // console.log(magic.pixels);
-
-      const imageData = magic.pixels
-
-      for(var i = 0; i < (imageData.length); i++) {
-        if((imageData[i*4] < 90) &&
-          (imageData[i*4+1] > 180) &&
-          (imageData[i*4+2] < 90)) {
-            magic.pixels[i*4+3] = 0;
-        }
-      }
-
       // magic.pixels.data = imageData.data;
       console.log(magic.pixels);
 
@@ -141,6 +128,17 @@
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
+        magic.loadPixels();
+        // console.log(magic.pixels);
+        const imageData = magic.pixels
+        for(var i = 0; i < (imageData.length); i++) {
+          if((imageData[i*4] < 90) &&
+            (imageData[i*4+1] > 180) &&
+            (imageData[i*4+2] < 90)) {
+              magic.pixels[i*4+3] = 0;
+          }
+        }
+        magic.updatePixels();
         // console.log(imagePNG);
         push();
         imageMode(CENTER); // 中心座標を基準に設定
