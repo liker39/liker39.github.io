@@ -138,17 +138,18 @@
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
-        console.log(imagePNG);
+        // console.log(imagePNG);
         push();
         imageMode(CENTER); // 中心座標を基準に設定
         // tint(255, 128); // gray+A
-        image(
-          imagePNG,
-          pos.x * displayWidth, // x座標
-          pos.y * displayHeight, // y座標
-          imagePNG.width * rate, // 横サイズ
-          imagePNG.height * rate // 縦サイズ
-        );
+        // image(
+        //   imagePNG,
+        //   pos.x * displayWidth, // x座標
+        //   pos.y * displayHeight, // y座標
+        //   imagePNG.width * rate, // 横サイズ
+        //   imagePNG.height * rate // 縦サイズ
+        // );
+        image(magic,200,200);
         pop();
 
 
