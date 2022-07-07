@@ -6,13 +6,13 @@
   <title>無題ドキュメント</title>
   <style>
     /* * { padding: 0; margin: 0; } */
-    canvas { background: rgb(137, 33, 33);}
+    canvas { background: rgb(255, 171, 171);}
   </style>
 </head>
 
 <body>
   <video id="v" controls="true" width="400" height="400" crossorigin="anonymous">
-    <source src="Icon_B508_hitodama_A_1000_1000.mov">
+    <source src="Icon_B508_hitodama_A_800_800_green.mp4">
   </video>
   <button onClick="outputVideo2()">output</button>
   <canvas id="c" width="400px" height="400px"></canvas>
@@ -44,13 +44,13 @@
 
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-        // for(var i = 0; i < (imageData.width*imageData.height); i++) {
-        //   if((imageData.data[i*4] < 50) &&
-        //     (imageData.data[i*4+1] > 200) &&
-        //     (imageData.data[i*4+2] < 50)) {
-        //       imageData.data[i*4+3] = 0;
-        //   }
-        // }   
+        for(var i = 0; i < (imageData.width*imageData.height); i++) {
+          if((imageData.data[i*4] < 60) &&
+            (imageData.data[i*4+1] > 190) &&
+            (imageData.data[i*4+2] < 60)) {
+              imageData.data[i*4+3] = 0;
+          }
+        }   
 
         ctx.putImageData(imageData, 0, 0);
 
