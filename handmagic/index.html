@@ -90,11 +90,11 @@
         if((imageData.data[i*4] < 90) &&
           (imageData.data[i*4+1] > 180) &&
           (imageData.data[i*4+2] < 90)) {
-            imageData.data[i*4+3] = 0;
+            magic.pixels.data[i*4+3] = 0;
         }
       }   
 
-      magic.pixels.data = imageData.data;
+      // magic.pixels.data = imageData.data;
 
       videoImage.drawingContext.drawImage(
         videoElement,
@@ -151,7 +151,7 @@
         //   imagePNG.width * rate, // 横サイズ
         //   imagePNG.height * rate // 縦サイズ
         // );
-        image(magic,200,200,100,100);
+        image(magic,200,200);
         pop();
 
 
