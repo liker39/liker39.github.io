@@ -37,7 +37,7 @@
 
     hands.setOptions({
       selfieMode: isFlipped,
-      maxNumHands: 1, // 最大1つに制限
+      maxNumHands: 2, // 最大1つに制限
       modelComplexity: 1,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5,
@@ -65,12 +65,13 @@
 
     function preload() {
       imagePNG = loadImage("./magic.PNG");
+      magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
     }
 
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
+      // magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
       magic.loop();
       magic.hide();
       noStroke();
