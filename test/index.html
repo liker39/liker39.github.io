@@ -5,13 +5,12 @@
   <meta charset=utf-8>
   <title>無題ドキュメント</title>
   <style>
-    /* * { padding: 0; margin: 0; } */
     canvas { background: rgb(255, 255, 255);}
   </style>
 </head>
 
 <body>
-  <video id="v" controls="true" width="400" height="400" crossorigin="anonymous">
+  <video id="v" controls="true" width="400" height="400" crossorigin="anonymous" loop="true">
     <source src="Icon_B535_monsyo_A_800_800_green.mp4">
   </video>
   <button onClick="outputVideo2()">output</button>
@@ -73,9 +72,9 @@
 
         ctx.putImageData(imageData, 0, 0);
 
-        video.addEventListener("ended", function(){
-          video.play();
-        }, false);
+        // video.addEventListener("ended", function(){
+        //   video.play();
+        // }, false);
 
       }, 1000/30);
     }
