@@ -4,38 +4,14 @@
 <head>
   <meta charset=utf-8>
   <title>無題ドキュメント</title>
-</head>
-
-<body>
-  <video id="intputVideo" controls="true" width="400" height="400">
-    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
-  </video>
-  <button onClick="outputVideo2()">output</button>
-  <canvas id="c" width="400px" height="400px"></canvas>
-  
-  <!-- <video id="video" width="400" height="300" controls>
-    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
-  </video>
-  <div style="width:400px; background-color:#333333; color:#ffffff;">
-    <input type="button" value="再生" onClick="playVideo()">
-    <input type="button" value="一時停止" onClick="pauseVideo()">
-    現在（秒）：<span id="ichi">0</span><br>
-    全体（秒）：<span id="nagasa"></span><br>
-    <span id="kanryou"></span>
-
-    <button id="prev-frame">戻る</button>
-    <button id="next-frame">進む</button>
-
-  </div> -->
-
   <script type="text/javascript">
     function outputVideo2(){
-    var video = document.getElementById("v");
+      var video = document.getElementById("v");
 
-    setInterval(function(){
-      var canvas = document.getElementById("c");
-      canvas.getContext("2d").drawImage(video, 0, 0, 480, 270);
-    }, 1000/30);
+      setInterval(function(){
+        var canvas = document.getElementById("c");
+        canvas.getContext("2d").drawImage(video, 0, 0, 400, 400);
+      }, 1000/30);
     }
     // var v = document.getElementById("video");
     // var prevFrame = document.getElementById('prev-frame');
@@ -82,6 +58,31 @@
     // } 
 
   </script>
+</head>
+
+<body>
+  <video id="v" controls="true" width="400" height="400">
+    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
+  </video>
+  <button onClick="outputVideo2()">output</button>
+  <canvas id="c" width="400px" height="400px"></canvas>
+  
+  <!-- <video id="video" width="400" height="300" controls>
+    <source src="Icon_B535_monsyo_A_800_800_green.mp4">
+  </video>
+  <div style="width:400px; background-color:#333333; color:#ffffff;">
+    <input type="button" value="再生" onClick="playVideo()">
+    <input type="button" value="一時停止" onClick="pauseVideo()">
+    現在（秒）：<span id="ichi">0</span><br>
+    全体（秒）：<span id="nagasa"></span><br>
+    <span id="kanryou"></span>
+
+    <button id="prev-frame">戻る</button>
+    <button id="next-frame">進む</button>
+
+  </div> -->
+
+  
 
 </body> 
 </html>
