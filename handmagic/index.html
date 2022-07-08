@@ -87,7 +87,7 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
+      // magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
       for (let i = 0; i<effect.length; i++){
         // effect[i].loop();
         effect[i].hide();
@@ -96,8 +96,8 @@
       }
       effect[select].loop();
       // effect[select].hide();
-      // noStroke();
-      // fill(0);
+      noStroke();
+      fill(0);
       magic = effect[select];
     }
 
