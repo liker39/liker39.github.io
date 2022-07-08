@@ -137,8 +137,6 @@
           (imageData[i*4+1] > 180) &&
           (imageData[i*4+2] < 90)) {
             magic.pixels[i*4+3] = 0;
-          } else {
-            magic.pixels[i*4+3] = 128;
           }
         }
         magic.updatePixels();
