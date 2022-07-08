@@ -16,7 +16,8 @@
 
 <body>
   <video class="input_video"></video>
-  <button onClick="change_effect()">change</button>
+  <button onClick="select=0;change_effect()">purple</button>
+  <button onClick="select=1;change_effect()">red</button>
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
     const isFlipped = true;
@@ -86,11 +87,11 @@
     }
 
     function change_effect(){
-      if (select == 0){
-        select = 1
-      } else {
-        select = 0
-      }
+      // if (select == 0){
+      //   select = 1
+      // } else {
+      //   select = 0
+      // }
       magic = effect[select]
     }
 
