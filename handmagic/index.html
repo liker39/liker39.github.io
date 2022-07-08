@@ -16,8 +16,8 @@
 
 <body>
   <video class="input_video"></video>
-  <button onClick="select=0;change_effect()">purple</button>
-  <button onClick="select=1;change_effect()">red</button>
+  <button onClick="change_effect()">purple</button>
+  <!-- <button onClick="select=1;change_effect()">red</button> -->
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
     const isFlipped = true;
@@ -68,9 +68,20 @@
 
     function preload() {
       imagePNG = loadImage("./magic.PNG");
-      effect = [createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']),
-               createVideo(['Icon_B535_monsyo_C_800_800_green.mp4'])
-              ];
+      effect = [createVideo(['Icon_B508_hitodama_A_1000_1000_green.mp4'],800,800),
+                createVideo(['Icon_B508_hitodama_B_1000_1000_green.mp4']),
+                createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']),
+                createVideo(['Icon_B535_monsyo_C_800_800_green.mp4']),
+                createVideo(['Wipe_B080_biribiri_blue_2000_2000_green.mp4']),
+                createVideo(['Wipe_B080_biribiri_red_2000_2000_green.mp4']),
+                createVideo(['Wipe_B080_biribiri_yellow_2000_2000_green.mp4']),
+                createVideo(['Wipe_B081_sasaru_EFX_blue_1000_1000_green.mp4']),
+                createVideo(['Wipe_B081_sasaru_EFX_red_1000_1000_green.mp4']),
+                createVideo(['Wipe_B081_sasaru_EFX_yellow_1000_1000_green.mp4']),
+                createVideo(['Wipe_B083_cyoi_EFX_T_1000_1000_green.mp4']),
+                createVideo(['Wipe_B086_cyoi_EFX_X_1000_1000_green.mp4']),
+                createVideo(['Wipe_B086_cyoi_EFX_Y_1000_1000_green.mp4'])
+               ];
     }
 
     function setup() {
@@ -92,6 +103,7 @@
       // } else {
       //   select = 0
       // }
+      select = (select + 1)%effect.length;
       magic = effect[select]
     }
 
