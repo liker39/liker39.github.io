@@ -87,14 +87,18 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      // magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
+      magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
       for (let i = 0; i<effect.length; i++){
-        effect[i].loop();
+        // effect[i].loop();
         effect[i].hide();
-        noStroke();
-        fill(0);
+        // noStroke();
+        // fill(0);
       }
-      magic = effect[select]
+      effect[select].loop();
+      // effect[select].hide();
+      // noStroke();
+      // fill(0);
+      magic = effect[select];
     }
 
     function change_effect(){
@@ -103,7 +107,9 @@
       // } else {
       //   select = 0
       // }
+      effect[select].noloop();
       select = (select + 1)%effect.length;
+      effect[select].loop();
       magic = effect[select]
     }
 
