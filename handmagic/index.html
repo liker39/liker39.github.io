@@ -16,6 +16,7 @@
 
 <body>
   <video class="input_video"></video>
+  <button onClick="change_effect()">change</button>
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
     const isFlipped = true;
@@ -37,7 +38,7 @@
 
     hands.setOptions({
       selfieMode: isFlipped,
-      maxNumHands: 2, // 最大1つに制限
+      maxNumHands: 1, // 最大1つに制限
       modelComplexity: 1,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5,
@@ -62,20 +63,33 @@
       ring: false,
       pinky: false,
     };
+    let select = 0;
 
     function preload() {
       imagePNG = loadImage("./magic.PNG");
-      magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
+      effect = [createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']),
+               createVideo(['Icon_B535_monsyo_C_800_800_green.mp4'])
+              ];
     }
 
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
       // magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
+      magic = effect[select]
       magic.loop();
       magic.hide();
       noStroke();
       fill(0);
+    }
+
+    function change_effect(){
+      if (select == 0){
+        select = 1
+      } else {
+        select = 0
+      }
+      magic = effect[select]
     }
 
     function draw() {
@@ -129,6 +143,7 @@
 
         const rate = 3000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
+        // エフェクトの加工
         magic.loadPixels();
         // console.log(magic.pixels);
         const imageData = magic.pixels
