@@ -134,16 +134,18 @@
         const imageData = magic.pixels
         for(var i = 0; i < (imageData.length); i++) {
           if((imageData[i*4] < 90) &&
-            (imageData[i*4+1] > 180) &&
-            (imageData[i*4+2] < 90)) {
-              magic.pixels[i*4+3] = 0;
+          (imageData[i*4+1] > 180) &&
+          (imageData[i*4+2] < 90)) {
+            magic.pixels[i*4+3] = 0;
+          } else {
+            magic.pixels[i*4+3] = 128;
           }
         }
         magic.updatePixels();
         // console.log(imagePNG);
         push();
         imageMode(CENTER); // 中心座標を基準に設定
-        tint(255, 128); // gray+A
+        // tint(255, 128); // gray+A
         // image(
         //   imagePNG,
         //   pos.x * displayWidth, // x座標
