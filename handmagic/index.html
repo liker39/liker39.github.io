@@ -80,10 +80,10 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
+      effect[select].loop();
+      // noStroke();
+      // fill(0);
       magic = effect[select];
-      magic.loop();
-      noStroke();
-      fill(0);
     }
 
     function change_effect(){
@@ -91,7 +91,6 @@
       select = (select + 1)%effect.length;
       effect[select].loop();
       magic = effect[select]
-      console.log(magic.height, magic.width)
     }
 
     function draw() {
