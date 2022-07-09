@@ -68,7 +68,8 @@
 
     function preload() {
       imagePNG = loadImage("./magic.PNG");
-      effect = [createVideo(['Icon_B508_hitodama_A_1000_1000_green.mp4']),
+      effect = [createVideo(['Icon_B508_hitodama_A_800_800_green.mp4']),
+                createVideo(['Icon_B508_hitodama_A_1000_1000_green.mp4']),
                 createVideo(['Icon_B508_hitodama_B_1000_1000_green.mp4']),
                 createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']),
                 createVideo(['Icon_B535_monsyo_C_800_800_green.mp4']),
@@ -87,17 +88,11 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      // effect.size(200,200);
-      // effect.hide();
       for (let i = 0; i<effect.length; i++){
-        // effect[i].loop();
         effect[i].hide();
         effect[i].size(400,400);
-        // noStroke();
-        // fill(0);
       }
       effect[select].loop();
-      // effect[select].hide();
       noStroke();
       fill(0);
       magic = effect[select];
@@ -105,11 +100,6 @@
     }
 
     function change_effect(){
-      // if (select == 0){
-      //   select = 1
-      // } else {
-      //   select = 0
-      // }
       effect[select].noLoop();
       select = (select + 1)%effect.length;
       effect[select].loop();
@@ -120,9 +110,6 @@
     function draw() {
       clear();
       background("rgba(100, 100, 255, 0.5)");
-
-      // magic.pixels.data = imageData.data;
-      // console.log(magic.pixels);
 
       videoImage.drawingContext.drawImage(
         videoElement,
