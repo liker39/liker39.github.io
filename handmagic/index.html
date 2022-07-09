@@ -164,45 +164,100 @@
       //
 
       if (keypointsHand.length > 0) {
-        const pos = keypointsHand[0][9];
+        if (select != 2 && select != 3){
+          finger();
+        } else {
+          const pos = keypointsHand[0][9];
 
-        const size = {
+          const size = {
+            bottom_pinky: keypointsHand[0][0],
+            thumb_bottom: keypointsHand[0][2],
+            index_bottom: keypointsHand[0][5],
+            pinky_bottom: keypointsHand[0][17],
+          };
+
+          const display_distance = dist(0, 0, displayWidth, displayHeight);
+          const distance = {
+            vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
+            horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
+          };
+
+          const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
+
+          blur_picture();
+          // console.log(imagePNG);
+          push();
+          imageMode(CENTER); // 中心座標を基準に設定
+          // tint(255, 128); // gray+A
+          // image(
+          //   imagePNG,
+          //   pos.x * displayWidth, // x座標
+          //   pos.y * displayHeight, // y座標
+          //   imagePNG.width * rate, // 横サイズ
+          //   imagePNG.height * rate // 縦サイズ
+          // );
+          image(
+            magic,
+            pos.x * displayWidth,
+            pos.y * displayHeight,
+            magic.width*rate,
+            magic.height*rate);
+          pop();
+        }
+      }
+
+      function finger() {
+        const pos = keypointsHand[0][8];
+
+        const key = {
           bottom_pinky: keypointsHand[0][0],
-          thumb_bottom: keypointsHand[0][2],
-          index_bottom: keypointsHand[0][5],
-          pinky_bottom: keypointsHand[0][17],
+          middle_top: keypointsHand[0][12],
+          ring_top: keypointsHand[0][16],
+          pinky_top: keypointsHand[0][20],
+          index_top: keypointsHand[0][8],
+          index_bottom: keypointsHand[0][5]
         };
 
         const display_distance = dist(0, 0, displayWidth, displayHeight);
         const distance = {
-          vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
-          horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
+          top_3: dist(pos.x, pos.y, key.middle_top.x, key.middle_top.y),
+          top_4: dist(pos.x, pos.y, key.ring_top.x, key.ring_top.y),
+          top_5: dist(pos.x, pos.y, key.pinky_top.x, key.pinky_top.y),
+          bottom_3: dist(key.bottom_pinky.x, key.bottom_pinky.y, key.middle_top.x, key.middle_top.y),
+          bottom_4: dist(key.bottom_pinky.x, key.bottom_pinky.y, key.ring_top.x, key.ring_top.y),
+          bottom_5: dist(key.bottom_pinky.x, key.bottom_pinky.y, key.pinky_top.x, key.pinky_top.y),
+          size: dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y),
         };
+        
+        const far = 1
+        if (distance.top_3 > distance.bottom_3*far 
+        && distance.top_4 > distance.bottom_4*far
+        && distance.top_5 > distance.bottom_5*far){
+          const rate = 3000*distance.size;
+          blur_picture();
+          // console.log(imagePNG);
+          push();
+          imageMode(CENTER); // 中心座標を基準に設定
+          // tint(255, 128); // gray+A
+          // image(
+          //   imagePNG,
+          //   pos.x * displayWidth, // x座標
+          //   pos.y * displayHeight, // y座標
+          //   imagePNG.width * rate, // 横サイズ
+          //   imagePNG.height * rate // 縦サイズ
+          // );
+          image(
+            magic,
+            pos.x * displayWidth,
+            pos.y * displayHeight,
+            magic.width*rate,
+            magic.height*rate);
+          pop();
+        }
+        // const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
-        const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
-
-        blur_picture()
-        // console.log(imagePNG);
-        push();
-        imageMode(CENTER); // 中心座標を基準に設定
-        // tint(255, 128); // gray+A
-        // image(
-        //   imagePNG,
-        //   pos.x * displayWidth, // x座標
-        //   pos.y * displayHeight, // y座標
-        //   imagePNG.width * rate, // 横サイズ
-        //   imagePNG.height * rate // 縦サイズ
-        // );
-        image(
-          magic,
-          pos.x * displayWidth,
-          pos.y * displayHeight,
-          magic.width*rate,
-          magic.height*rate);
-        pop();
+        
       }
-
-      
 
 
       // push();
