@@ -78,10 +78,12 @@
 
     let select = -1;
     let videoImage;
-    
+
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
+      effect[select].loop();
+      magic = effect[select]
     }
 
     function change_effect(){
@@ -89,6 +91,40 @@
       select = (select + 1)%effect.length;
       effect[select].loop();
       magic = effect[select]
+    }
+
+    function blur_picture(){
+      // エフェクトの加工
+      magic.loadPixels();
+      // console.log(magic.pixels);
+      const imageData = magic.pixels
+      for(var i = 0; i < (imageData.length)/4; i++) {
+        if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
+          magic.pixels[i*4] = 0;
+          magic.pixels[i*4+1] = 0;
+          magic.pixels[i*4+2] = 0;
+          magic.pixels[i*4+3] = 0;
+        }
+      }
+      
+      for(var i = 0; i < (imageData.length)/4; i++) {
+        if (magic.pixels[i*4+3] != 0){
+          let sum = [0,0,0,0];
+          for(var j = -1; j <= 1; j++){
+            for(var k = -1; k <= 1; k++){
+              sum[0] += magic.pixels[(i+j*magic.width+k)*4]/12;
+              sum[1] += magic.pixels[(i+j*magic.width+k)*4+1]/12;
+              sum[2] += magic.pixels[(i+j*magic.width+k)*4+2]/12;
+              sum[3] += magic.pixels[(i+j*magic.width+k)*4+3]/12;
+            }
+          }
+          magic.pixels[i*4] += sum[0];
+          magic.pixels[i*4+1] += sum[1];
+          magic.pixels[i*4+2] += sum[2];
+          magic.pixels[i*4+3] += sum[3];
+        }
+      }
+      magic.updatePixels();
     }
 
     function draw() {
@@ -139,37 +175,7 @@
 
         const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
-        // エフェクトの加工
-        magic.loadPixels();
-        // console.log(magic.pixels);
-        const imageData = magic.pixels
-        for(var i = 0; i < (imageData.length)/4; i++) {
-          if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
-            magic.pixels[i*4] = 0;
-            magic.pixels[i*4+1] = 0;
-            magic.pixels[i*4+2] = 0;
-            magic.pixels[i*4+3] = 0;
-          }
-        }
         
-        for(var i = 0; i < (imageData.length)/4; i++) {
-          if (magic.pixels[i*4+3] != 0){
-            let sum = [0,0,0,0];
-            for(var j = -1; j <= 1; j++){
-              for(var k = -1; k <= 1; k++){
-                sum[0] += magic.pixels[(i+j*magic.width+k)*4]/12;
-                sum[1] += magic.pixels[(i+j*magic.width+k)*4+1]/12;
-                sum[2] += magic.pixels[(i+j*magic.width+k)*4+2]/12;
-                sum[3] += magic.pixels[(i+j*magic.width+k)*4+3]/12;
-              }
-            }
-            magic.pixels[i*4] += sum[0];
-            magic.pixels[i*4+1] += sum[1];
-            magic.pixels[i*4+2] += sum[2];
-            magic.pixels[i*4+3] += sum[3];
-          }
-        }
-        magic.updatePixels();
         // console.log(imagePNG);
         push();
         imageMode(CENTER); // 中心座標を基準に設定
@@ -189,6 +195,8 @@
           magic.height*rate);
         pop();
       }
+
+      
 
 
       // push();
