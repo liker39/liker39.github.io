@@ -55,42 +55,34 @@
     });
     camera.start();
 
-    let imagePNG;
-    let videoImage;
-    let flag = {
-      thumb: false,
-      index: false,
-      middle: false,
-      ring: false,
-      pinky: false,
-    };
-    let select = 0;
+    
 
+    // ビデオ読み込み
     function preload() {
-      imagePNG = loadImage("./magic.PNG");
-      effect = [createVideo(['movie_resize/Icon_B508_hitodama_A.mp4']),
-                createVideo(['movie_resize/Icon_B508_hitodama_B.mp4']),
-                createVideo(['movie_resize/Icon_B535_monsyo_A.mp4']),
-                createVideo(['movie_resize/Icon_B535_monsyo_C.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_blue.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_red.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_yellow.mp4']),
-                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_blue.mp4']),
-                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_red.mp4']),
-                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_yellow.mp4']),
-                createVideo(['movie_resize/Wipe_B083_cyoi_EFX_T.mp4']),
-                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_X.mp4']),
-                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_Y.mp4'])
+      effect = [createVideo(['movie_resize/Icon_B508_hitodama_A.mp4']).hide(),
+                createVideo(['movie_resize/Icon_B508_hitodama_B.mp4']).hide(),
+                createVideo(['movie_resize/Icon_B535_monsyo_A.mp4']).hide(),
+                createVideo(['movie_resize/Icon_B535_monsyo_C.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B080_biribiri_blue.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B080_biribiri_red.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B080_biribiri_yellow.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_blue.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_red.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B081_sasaru_EFX_yellow.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B083_cyoi_EFX_T.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_X.mp4']).hide(),
+                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_Y.mp4']).hide()
                ];
     }
 
+    let select = 0;
+    let videoImage;
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      for (let i = 0; i<effect.length; i++){
-        effect[i].hide();
-        // effect[i].size(400,400);
-      }
+      // for (let i = 0; i<effect.length; i++){
+      //   effect[i].hide();
+      // }
       effect[select].loop();
       noStroke();
       fill(0);
