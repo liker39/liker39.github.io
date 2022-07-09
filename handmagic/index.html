@@ -159,9 +159,10 @@
         // console.log(magic.pixels);
         const imageData = magic.pixels
         for(var i = 0; i < (imageData.length)/4; i++) {
-          if((imageData[i*4] < 150) &&
-          (imageData[i*4+1] > 150) &&
-          (imageData[i*4+2] < 100)) {
+          if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
+            magic.pixels[i*4] = 0;
+            magic.pixels[i*4+1] = 0;
+            magic.pixels[i*4+2] = 0;
             magic.pixels[i*4+3] = 0;
           }
         }
