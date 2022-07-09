@@ -16,7 +16,7 @@
 
 <body>
   <video class="input_video"></video>
-  <button onClick="change_effect()">purple</button>
+  <button onClick="change_effect()">change</button>
   <!-- <button onClick="select=1;change_effect()">red</button> -->
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
@@ -156,10 +156,6 @@
 
         // エフェクトの加工
         magic.loadPixels();
-        // v is the normalized value
-        let v = 1.0 / 9.0;
-        // kernel is the 3x3 matrix of normalized values
-        let kernel = [[ v, v, v ], [ v, v, v ], [ v, v, v ]]; 
         // console.log(magic.pixels);
         const imageData = magic.pixels
         for(var i = 0; i < (imageData.length)/4; i++) {
@@ -172,13 +168,13 @@
         
         for(var i = 0; i < (imageData.length)/4; i++) {
           let sum = [0,0,0,0];
-          now = [imageData[i*4],imageData[i*4+1],imageData[i*4+2],imageData[i*4+3]]
           for(var j = -1; j <= 1; j++){
             for(var k = -1; k <= 1; k++){
               sum[0] += imageData[(i+j*magic.width+k)*4]/9;
               sum[1] += imageData[(i+j*magic.width+k)*4+1]/9;
               sum[2] += imageData[(i+j*magic.width+k)*4+2]/9;
               sum[3] += imageData[(i+j*magic.width+k)*4+3]/9;
+            }
           }
           magic.pixels[i*4] += sum[0];
           magic.pixels[i*4+1] += sum[1];
