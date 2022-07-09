@@ -82,6 +82,7 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
+      filter(ERODE);
       for(let i = 0; i<effect.length; i++){
         effect[i].hide();
       }
