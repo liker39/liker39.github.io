@@ -233,7 +233,7 @@
         if (distance.top_3 > distance.bottom_3*far 
         && distance.top_4 > distance.bottom_4*far
         && distance.top_5 > distance.bottom_5*far){
-          const rate = 100*distance.size;
+          const rate = 3000*distance.size/display_distance;;
           blur_picture();
           // console.log(imagePNG);
           push();
