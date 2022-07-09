@@ -80,14 +80,10 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      // for (let i = 0; i<effect.length; i++){
-      //   effect[i].hide();
-      // }
-      effect[select].loop();
+      magic = effect[select];
+      magic.loop();
       noStroke();
       fill(0);
-      magic = effect[select];
-      console.log(magic.height,magic.width);
     }
 
     function change_effect(){
