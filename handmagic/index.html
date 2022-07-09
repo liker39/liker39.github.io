@@ -87,11 +87,12 @@
     function setup() {
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
-      effect.size(200,200);
+      // effect.size(200,200);
       // effect.hide();
       for (let i = 0; i<effect.length; i++){
         // effect[i].loop();
         effect[i].hide();
+        effect[i].size(200,200);
         // noStroke();
         // fill(0);
       }
@@ -100,6 +101,7 @@
       noStroke();
       fill(0);
       magic = effect[select];
+      console.log(magic.height,magic.width);
     }
 
     function change_effect(){
