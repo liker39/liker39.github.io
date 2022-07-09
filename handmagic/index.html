@@ -68,7 +68,7 @@
 
     function preload() {
       imagePNG = loadImage("./magic.PNG");
-      effect = [createVideo(['Icon_B508_hitodama_A_1000_1000_green.mp4'],800,800),
+      effect = [createVideo(['Icon_B508_hitodama_A_1000_1000_green.mp4']),
                 createVideo(['Icon_B508_hitodama_B_1000_1000_green.mp4']),
                 createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']),
                 createVideo(['Icon_B535_monsyo_C_800_800_green.mp4']),
@@ -92,7 +92,7 @@
       for (let i = 0; i<effect.length; i++){
         // effect[i].loop();
         effect[i].hide();
-        // effect[i].size(200,200);
+        effect[i].size(400,400);
         // noStroke();
         // fill(0);
       }
