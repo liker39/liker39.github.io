@@ -88,14 +88,13 @@
       createCanvas(1280, 760);
       videoImage = createGraphics(1280, 760);
       effect.size(200,200);
-      effect.hide();
-      // magic = createVideo(['Icon_B535_monsyo_A_800_800_green.mp4']);
-      // for (let i = 0; i<effect.length; i++){
-      //   // effect[i].loop();
-      //   effect[i].hide();
-      //   // noStroke();
-      //   // fill(0);
-      // }
+      // effect.hide();
+      for (let i = 0; i<effect.length; i++){
+        // effect[i].loop();
+        effect[i].hide();
+        // noStroke();
+        // fill(0);
+      }
       effect[select].loop();
       // effect[select].hide();
       noStroke();
@@ -113,6 +112,7 @@
       select = (select + 1)%effect.length;
       effect[select].loop();
       magic = effect[select]
+      console.log(magic.height, magic.width)
     }
 
     function draw() {
