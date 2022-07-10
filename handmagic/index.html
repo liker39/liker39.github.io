@@ -202,8 +202,7 @@
           if (dis_all > distance.standard*thres){
             blur_picture();
             push();
-            console.log(magic.height*rate)
-            translate(0, 200);
+            
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
@@ -253,6 +252,10 @@
             arrow();
           }else{
             push();
+            if (select == 0 || select == 1){
+              console.log(magic.height*rate)
+              translate(0, -200);
+            }
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
