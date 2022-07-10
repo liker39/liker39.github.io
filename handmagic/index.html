@@ -78,6 +78,9 @@
 
     let select = 0;
     let videoImage;
+    const displayWidth = width;
+    const displayHeight = (width * videoImage.height) / videoImage.width;
+    const display_distance = dist(0, 0, displayWidth, displayHeight);
 
     function setup() {
       createCanvas(960, 540);
@@ -109,6 +112,8 @@
           magic.pixels[i*4+1] = 0;
           magic.pixels[i*4+2] = 0;
           magic.pixels[i*4+3] = 0;
+        } else {
+          magic.pixels[i*4+3] = 128;
         }
       }
       
@@ -120,7 +125,7 @@
               sum[0] += magic.pixels[(i+j*magic.width+k)*4]/12;
               sum[1] += magic.pixels[(i+j*magic.width+k)*4+1]/12;
               sum[2] += magic.pixels[(i+j*magic.width+k)*4+2]/12;
-              sum[3] += magic.pixels[(i+j*magic.width+k)*4+3]/12;
+              sum[3] += magic.pixels[(i+j*magic.width+k)*4+3]/9;
             }
           }
           magic.pixels[i*4] += sum[0];
@@ -152,8 +157,6 @@
       }
       // image(videoImage, 0, 0);
       fill(0,0,0,100)
-      displayWidth = width;
-      displayHeight = (width * videoImage.height) / videoImage.width;
       image(videoImage, 0, 0, displayWidth, displayHeight);
       pop();
 
@@ -177,33 +180,36 @@
             pinky_bottom: keypointsHand[0][17],
           };
 
-          const display_distance = dist(0, 0, displayWidth, displayHeight);
           const distance = {
             vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
             horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
           };
 
-          const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
+          const rate = 3500*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
           blur_picture();
           // console.log(imagePNG);
-          push();
-          imageMode(CENTER); // 中心座標を基準に設定
-          // tint(255, 128); // gray+A
-          // image(
-          //   imagePNG,
-          //   pos.x * displayWidth, // x座標
-          //   pos.y * displayHeight, // y座標
-          //   imagePNG.width * rate, // 横サイズ
-          //   imagePNG.height * rate // 縦サイズ
-          // );
-          image(
-            magic,
-            pos.x * displayWidth,
-            pos.y * displayHeight,
-            magic.width*rate,
-            magic.height*rate);
-          pop();
+          if (select == 7 || select == 8 || select == 9) {
+            arrow();
+          }else{
+            push();
+            imageMode(CENTER); // 中心座標を基準に設定
+            // tint(255, 128); // gray+A
+            // image(
+            //   imagePNG,
+            //   pos.x * displayWidth, // x座標
+            //   pos.y * displayHeight, // y座標
+            //   imagePNG.width * rate, // 横サイズ
+            //   imagePNG.height * rate // 縦サイズ
+            // );
+            image(
+              magic,
+              pos.x * displayWidth,
+              pos.y * displayHeight,
+              magic.width*rate,
+              magic.height*rate);
+            pop();
+          }
         }
       }
 
@@ -219,7 +225,7 @@
           index_bottom: keypointsHand[0][5]
         };
 
-        const display_distance = dist(0, 0, displayWidth, displayHeight);
+        
         const distance = {
           top_3: dist(pos.x, pos.y, key.middle_top.x, key.middle_top.y),
           top_4: dist(pos.x, pos.y, key.ring_top.x, key.ring_top.y),
@@ -234,7 +240,7 @@
         if (distance.top_3 > distance.bottom_3*far 
         && distance.top_4 > distance.bottom_4*far
         && distance.top_5 > distance.bottom_5*far){
-          const rate = 3000*distance.size/display_distance;;
+          const rate = 2500*distance.size/display_distance;
           blur_picture();
           // console.log(imagePNG);
           push();
@@ -252,9 +258,33 @@
       }
 
       function arrow() {
-        
+        const pos = keypointsHand[0][8];
+
+        const key = {
+          index_top: keypointsHand[0][8],
+          index_bottom: keypointsHand[0][5]
+        };
 
 
+        x = key.index_top.x - key.index_bottom.x;
+        y = key.index_top.y - key.index_bottom.y;
+        dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
+        cos = x/dis;
+        sin = y/dis;
+        deg = (Math.asin(sin)+Math.acos(cos))/2;
+
+        const rate = 3500*dis/display_distance;
+        push();
+        translate(pos.x*displayWidth, pos.y*displayHeight);  // 指先に移動
+        rotate(deg);
+        imageMode(CENTER); // 中心座標を基準に設定
+          image(
+            magic,
+            0,
+            0,
+            magic.width*rate,
+            magic.height*rate);
+        pop();
       }
       // push();
       // fill(0, 0, 0);
