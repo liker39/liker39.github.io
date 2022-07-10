@@ -87,7 +87,9 @@
         effect[i].hide();
       }
       effect[select].loop();
+      push();
       noStroke();
+      pop();
       // fill(0);
       magic = effect[select]
     }
@@ -252,7 +254,7 @@
 
         if(select == 0 || select == 1){
           blur_picture();
-          const thres_1 = 1.1;
+          const thres_1 = 1.2;
           if(distance.top_1 > distance.bottom_1*thres_1){
             const rate = 1600*distance.top_1/display_distance;
             push();
