@@ -252,8 +252,9 @@
 
         if(select == 0 || select == 1){
           blur_picture();
-          if(distance.top_1 > distance.bottom_1){
-            const rate = 1000*distance.top_1/display_distance;
+          const thres_1 = 0.7;
+          if(distance.top_1 > distance.bottom_1*thres_1){
+            const rate = 800*distance.top_1/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
@@ -266,8 +267,8 @@
               magic.height*rate);
             pop();
           }
-          if(distance.top_2 > distance.bottom_2){
-            const rate = 1000*distance.top_2/display_distance;
+          if(distance.top_2 > distance.bottom_2*thres_1){
+            const rate = 800*distance.top_2/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
@@ -280,8 +281,8 @@
               magic.height*rate);
             pop();
           }
-          if(distance.top_3 > distance.bottom_3){
-            const rate = 1000*distance.top_3/display_distance;
+          if(distance.top_3 > distance.bottom_3*thres_1){
+            const rate = 800*distance.top_3/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
@@ -294,8 +295,8 @@
               magic.height*rate);
             pop();
           }
-          if(distance.top_4 > distance.bottom_4){
-            const rate = 1000*distance.top_4/display_distance;
+          if(distance.top_4 > distance.bottom_4*thres_1){
+            const rate = 800*distance.top_4/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
@@ -308,8 +309,8 @@
               magic.height*rate);
             pop();
           }
-          if(distance.top_5 > distance.bottom_5){
-            const rate = 1000*distance.top_5/display_distance;
+          if(distance.top_5 > distance.bottom_5*thres_1){
+            const rate = 1500*distance.top_5/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
