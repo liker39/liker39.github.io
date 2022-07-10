@@ -190,8 +190,8 @@
 
           blur_picture();
           // console.log(imagePNG);
-          if (select == 7 || select == 8 || select == 9) {
-            arrow();
+          if (select != 2 && select != 3) {
+            finger();
           }else{
             push();
             imageMode(CENTER); // 中心座標を基準に設定
@@ -247,15 +247,19 @@
           const rate = 2500*distance.size/display_distance;
           blur_picture();
           // console.log(imagePNG);
-          push();
-          imageMode(CENTER); // 中心座標を基準に設定
-          image(
-            magic,
-            pos.x * displayWidth,
-            pos.y * displayHeight,
-            magic.width*rate,
-            magic.height*rate);
-          pop();
+          if (select == 7 || select == 8 || select == 9) {
+            arrow();
+          }else{
+            push();
+            imageMode(CENTER); // 中心座標を基準に設定
+            image(
+              magic,
+              pos.x * displayWidth,
+              pos.y * displayHeight,
+              magic.width*rate,
+              magic.height*rate);
+            pop();
+          }
         }
 
         
