@@ -202,6 +202,7 @@
           if (dis_all > distance.standard*thres){
             blur_picture();
             push();
+            translate(0, -magic.height*rate/10);
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
