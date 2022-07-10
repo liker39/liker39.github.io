@@ -252,9 +252,9 @@
 
         if(select == 0 || select == 1){
           blur_picture();
-          const thres_1 = 0.7;
+          const thres_1 = 0.9;
           if(distance.top_1 > distance.bottom_1*thres_1){
-            const rate = 800*distance.top_1/display_distance;
+            const rate = 1500*distance.top_1/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
@@ -310,7 +310,7 @@
             pop();
           }
           if(distance.top_5 > distance.bottom_5*thres_1){
-            const rate = 1500*distance.top_5/display_distance;
+            const rate = 800*distance.top_5/display_distance;
             push();
             console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
