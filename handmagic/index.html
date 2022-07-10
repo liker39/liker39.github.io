@@ -242,7 +242,7 @@
           top_3: dist(key.middle_top.x, key.middle_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
           top_4: dist(key.ring_top.x, key.ring_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
           top_5: dist(key.pinky_top.x, key.pinky_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_1: dist(key.thumb_bottom.x, key.thumb_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
+          bottom_1: dist(key.index_bottom.x, key.index_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
           bottom_2: dist(key.index_bottom.x, key.index_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
           bottom_3: dist(key.middle_bottom.x, key.middle_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
           bottom_4: dist(key.ring_bottom.x, key.ring_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
@@ -252,7 +252,7 @@
 
         if(select == 0 || select == 1){
           blur_picture();
-          const thres_1 = 1;
+          const thres_1 = 1.1;
           if(distance.top_1 > distance.bottom_1*thres_1){
             const rate = 1600*distance.top_1/display_distance;
             push();
@@ -327,9 +327,9 @@
         } 
         else {
           const far = 1.5
-          if (distance.top_3 > distance.bottom_3 
-          && distance.top_4 > distance.bottom_4
-          && distance.top_5 > distance.bottom_5){
+          if (distance.top_3 < distance.bottom_3 
+          && distance.top_4 < distance.bottom_4
+          && distance.top_5 < distance.bottom_5){
             const rate = 2500*distance.size/display_distance;
             blur_picture();
             // console.log(imagePNG);
