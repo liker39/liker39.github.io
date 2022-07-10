@@ -179,30 +179,30 @@
             thumb_bottom: keypointsHand[0][2],
             index_bottom: keypointsHand[0][5],
             pinky_bottom: keypointsHand[0][17],
+            thumb_top: keypointsHand[0][4],
+            index_top: keypointsHand[0][8],
+            middle_top: keypointsHand[0][12],
+            ring_top: keypointsHand[0][16],
+            pinky_top: keypointsHand[0][20],
           };
 
           const distance = {
-            vertical: dist(size.bottom_pinky.x, size.bottom_pinky.y, size.index_bottom.x, size.index_bottom.y),
-            horizontal: dist(size.thumb_bottom.x, size.thumb_bottom.y, size.pinky_bottom.x, size.pinky_bottom.y),
+            standard: dist(size.index_bottom.x, size.index_bottom.y, size.bottom_pinky.x, size.bottom_pinky.y),
+            dis_thumb: dist(size.thumb_top.x, size.thumb_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
+            dis_index: dist(size.index_top.x, size.index_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
+            dis_middle: dist(size.middle_top.x, size.middle_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
+            dis_ring: dist(size.ring_top.x, size.ring_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
+            dis_pinky: dist(size.pinky_top.x, size.pinky_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
           };
 
-          const rate = 3500*Math.max(distance.vertical,distance.horizontal)/display_distance;
+          const thres = 0.1;
+          const dis_all = (distance.dis_thumb + distance.dis_index + distance.dis_middle + distance.dis_ring + distance.dis_pinky)/5;
+          const rate = 3500*dis_all/display_distance;
 
-          blur_picture();
-          // console.log(imagePNG);
-          if (select != 2 && select != 3) {
-            finger();
-          }else{
+          if (dis_all > distance.standard*thres){
+            blur_picture();
             push();
             imageMode(CENTER); // 中心座標を基準に設定
-            // tint(255, 128); // gray+A
-            // image(
-            //   imagePNG,
-            //   pos.x * displayWidth, // x座標
-            //   pos.y * displayHeight, // y座標
-            //   imagePNG.width * rate, // 横サイズ
-            //   imagePNG.height * rate // 縦サイズ
-            // );
             image(
               magic,
               pos.x * displayWidth,
@@ -240,7 +240,7 @@
           size: dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y),
         };
         
-        const far = 1
+        const far = 1.5
         if (distance.top_3 > distance.bottom_3*far 
         && distance.top_4 > distance.bottom_4*far
         && distance.top_5 > distance.bottom_5*far){
