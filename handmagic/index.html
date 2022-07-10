@@ -80,8 +80,8 @@
     let videoImage;
 
     function setup() {
-      createCanvas(1280, 760);
-      videoImage = createGraphics(1280, 760);
+      createCanvas(960, 540);
+      videoImage = createGraphics(960, 540);
       for(let i = 0; i<effect.length; i++){
         effect[i].hide();
       }
@@ -134,7 +134,7 @@
 
     function draw() {
       clear();
-      background("rgba(100, 100, 255, 0.5)");
+      // background("rgba(100, 100, 255, 0.5)");
 
       videoImage.drawingContext.drawImage(
         videoElement,
@@ -151,10 +151,10 @@
         scale(-1, 1);
       }
       // image(videoImage, 0, 0);
+      fill(0,0,0,100)
       displayWidth = width;
       displayHeight = (width * videoImage.height) / videoImage.width;
       image(videoImage, 0, 0, displayWidth, displayHeight);
-      filter(ERODE);
       pop();
 
 
@@ -239,14 +239,6 @@
           // console.log(imagePNG);
           push();
           imageMode(CENTER); // 中心座標を基準に設定
-          // tint(255, 128); // gray+A
-          // image(
-          //   imagePNG,
-          //   pos.x * displayWidth, // x座標
-          //   pos.y * displayHeight, // y座標
-          //   imagePNG.width * rate, // 横サイズ
-          //   imagePNG.height * rate // 縦サイズ
-          // );
           image(
             magic,
             pos.x * displayWidth,
@@ -255,12 +247,15 @@
             magic.height*rate);
           pop();
         }
-        // const rate = 4000*Math.max(distance.vertical,distance.horizontal)/display_distance;
 
         
       }
 
+      function arrow() {
+        
 
+
+      }
       // push();
       // fill(0, 0, 0);
       // rect(5, 5, 270, 80);
