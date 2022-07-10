@@ -92,6 +92,10 @@
       // pop();
       // fill(0);
       magic = effect[select]
+      console.log(select);
+      console.log(magic);
+      magic.loadPixels();
+      console.log(magic.pixels);
     }
 
     function change_effect(){
@@ -104,7 +108,7 @@
     function blur_picture(){
       // エフェクトの加工
       magic.loadPixels();
-      console.log(magic.pixels);
+      // console.log(magic.pixels);
       const imageData = magic.pixels
       for(var i = 0; i < (imageData.length)/4; i++) {
         if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
@@ -135,7 +139,7 @@
           magic.pixels[i*4+3] += sum[3];
         }
       }
-      console.log(magic.pixels);
+      // console.log(magic.pixels);
       magic.updatePixels();
     }
 
