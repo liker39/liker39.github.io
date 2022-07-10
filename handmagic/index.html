@@ -286,7 +286,7 @@
         const rate = 3500*dis/display_distance;
         push();
         translate(pos.x*displayWidth, pos.y*displayHeight);  // 指先に移動
-        rotate(-rad+Math.PI/4);
+        rotate(-rad-Math.PI/4);
         // imageMode(CENTER); // 中心座標を基準に設定
         image(
           magic,
