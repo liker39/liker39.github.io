@@ -282,7 +282,8 @@
         dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
         cos = x/dis;
         sin = y/dis;
-        deg = (Math.asin(sin)+Math.acos(cos))/2+Math.PI/4;
+        deg = (Math.asin(sin)+Math.acos(cos))/2;
+        console.log(deg);
 
         const rate = 3500*dis/display_distance;
         push();
