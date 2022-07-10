@@ -195,9 +195,9 @@
             dis_pinky: dist(size.pinky_top.x, size.pinky_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
           };
 
-          const thres = 0.1;
+          const thres = 0.7;
           const dis_all = (distance.dis_thumb + distance.dis_index + distance.dis_middle + distance.dis_ring + distance.dis_pinky)/5;
-          const rate = 3500*dis_all/display_distance;
+          const rate = 3000*dis_all/display_distance;
 
           if (dis_all > distance.standard*thres){
             blur_picture();
