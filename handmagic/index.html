@@ -280,7 +280,7 @@
         x = key.index_top.x - key.index_bottom.x;
         y = key.index_top.y - key.index_bottom.y;
         dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
-        rad = Math.atan2(y, x);
+        rad = Math.atan2(y, x)+Math.PI;
         console.log(rad * ( 180 / Math.PI ) );
 
         const rate = 3500*dis/display_distance;
