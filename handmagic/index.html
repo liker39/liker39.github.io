@@ -278,19 +278,19 @@
         dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
         cos = x/dis;
         sin = y/dis;
-        deg = (Math.asin(sin)+Math.acos(cos))/2+2/Math.PI;
+        deg = (Math.asin(sin)+Math.acos(cos))/2+Math.PI/2;
 
         const rate = 3500*dis/display_distance;
         push();
         translate(pos.x*displayWidth, pos.y*displayHeight);  // 指先に移動
-        rotate(deg);
-        imageMode(CENTER); // 中心座標を基準に設定
-          image(
-            magic,
-            0,
-            0,
-            magic.width*rate,
-            magic.height*rate);
+        rotate(Math.PI);
+        // imageMode(CENTER); // 中心座標を基準に設定
+        image(
+          magic,
+          0,
+          0,
+          magic.width*rate,
+          magic.height*rate);
         pop();
       }
       // push();
