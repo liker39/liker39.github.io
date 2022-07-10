@@ -78,9 +78,7 @@
 
     let select = 0;
     let videoImage;
-    const displayWidth = width;
-    const displayHeight = (width * videoImage.height) / videoImage.width;
-    const display_distance = dist(0, 0, displayWidth, displayHeight);
+    
 
     function setup() {
       createCanvas(960, 540);
@@ -140,6 +138,9 @@
     function draw() {
       clear();
       // background("rgba(100, 100, 255, 0.5)");
+      const displayWidth = width;
+      const displayHeight = (width * videoImage.height) / videoImage.width;
+      const display_distance = dist(0, 0, displayWidth, displayHeight);
 
       videoImage.drawingContext.drawImage(
         videoElement,
@@ -214,6 +215,9 @@
       }
 
       function finger() {
+        const displayWidth = width;
+        const displayHeight = (width * videoImage.height) / videoImage.width;
+        const display_distance = dist(0, 0, displayWidth, displayHeight);
         const pos = keypointsHand[0][8];
 
         const key = {
@@ -258,6 +262,9 @@
       }
 
       function arrow() {
+        const displayWidth = width;
+        const displayHeight = (width * videoImage.height) / videoImage.width;
+        const display_distance = dist(0, 0, displayWidth, displayHeight);
         const pos = keypointsHand[0][8];
 
         const key = {
@@ -271,7 +278,7 @@
         dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
         cos = x/dis;
         sin = y/dis;
-        deg = (Math.asin(sin)+Math.acos(cos))/2;
+        deg = (Math.asin(sin)+Math.acos(cos))/2+2/Math.PI;
 
         const rate = 3500*dis/display_distance;
         push();
