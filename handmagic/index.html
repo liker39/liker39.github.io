@@ -10,14 +10,27 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" type="text/css" href="style.css">
-
+  <title>手から魔法</title>
   <meta charset="utf-8" />
 </head>
 
 <body>
+  <h1>手から魔法</h1>
   <video class="input_video"></video>
+  <button onClick="select=0;change_effect()">炎(赤)</button>
+  <button onClick="select=1;change_effect()">炎(青)</button>
+  <button onClick="select=2;change_effect()">紋章(紫)</button>
+  <button onClick="select=3;change_effect()">紋章(赤)</button>
+  <button onClick="select=4;change_effect()">弓矢(青)</button>
+  <button onClick="select=5;change_effect()">弓矢(赤)</button>
+  <button onClick="select=6;change_effect()">弓矢(黄)</button>
+  <button onClick="select=7;change_effect()">稲妻(青)</button>
+  <button onClick="select=8;change_effect()">稲妻(赤)</button>
+  <button onClick="select=9;change_effect()">稲妻(黄)</button>
+  <button onClick="select=10;change_effect()">火</button>
+  <button onClick="select=11;change_effect()">電</button>
+  <button onClick="select=12;change_effect()">風</button>
   <button onClick="change_effect()">change</button>
-  
   <!-- <button onClick="select=1;change_effect()">red</button> -->
 
   <script>
@@ -98,10 +111,13 @@
     }
 
     function change_effect(){
-      effect[select].noLoop();
-      select = (select + 1)%effect.length;
+      // magic.noLoop();
+      // effect[select].noLoop();
+      magic.noLoop();
+      // select = (select + 1)%effect.length;
       effect[select].loop();
       magic = effect[select]
+      // magic.loop();
     }
 
     function blur_picture(){
