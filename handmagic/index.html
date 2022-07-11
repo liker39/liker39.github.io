@@ -30,6 +30,7 @@
   <button onClick="select=10;change_effect()">火</button>
   <button onClick="select=11;change_effect()">電</button>
   <button onClick="select=12;change_effect()">風</button>
+  <button onClick="change_effect()">change</button>
   <!-- <button onClick="select=1;change_effect()">red</button> -->
 
   <script>
@@ -110,11 +111,12 @@
     }
 
     function change_effect(){
-      magic.noLoop();
-      // select = (select + 1)%effect.length;
-      // effect[select].loop();
+      // magic.noLoop();
+      effect[select].noLoop();
+      select = (select + 1)%effect.length;
+      effect[select].loop();
       magic = effect[select]
-      magic.loop();
+      // magic.loop();
     }
 
     function blur_picture(){
