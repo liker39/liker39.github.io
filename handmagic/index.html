@@ -191,17 +191,17 @@
         };
 
         if (select == 0 || select == 1) {
-          fingers();
+          fingers(key,distance);
         } else if (select == 2 || select == 3) {
-          magic_circle();
+          magic_circle(key,distance);
         } else if (select == 4 || select == 5 || select == 6) {
-          arrow();
+          arrow(key,distance);
         } else {
-          finger();
+          finger(key,distance);
         }
       }
 
-      function fingers() {
+      function fingers(key,distance) {
         blur_picture();
         draw_finger(distance.top_1, distance.bottom_1,1600,key.thumb_top)
         draw_finger(distance.top_2, distance.bottom_2, 800,key.index_top)
@@ -228,7 +228,7 @@
         }
       }
 
-      function magic_circle() {
+      function magic_circle(key,distance) {
         const thres_circle = 1.2;
         const dis_all = (distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5)/5;
         const dis_standard = (distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5)/5
@@ -249,7 +249,7 @@
         }
       }
 
-      function finger() {
+      function finger(key,distance) {
         if (distance.top_2 > distance.bottom_2
          && distance.top_3 < distance.bottom_3 
          && distance.top_4 < distance.bottom_4
@@ -268,7 +268,7 @@
         }
       }
 
-      function arrow() {
+      function arrow(key,distance) {
         if (distance.top_2 > distance.bottom_2
          && distance.top_3 < distance.bottom_3 
          && distance.top_4 < distance.bottom_4
