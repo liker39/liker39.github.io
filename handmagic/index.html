@@ -60,6 +60,7 @@
 
     // ビデオ読み込み
     function preload() {
+      imagePNG = loadImage("./magic.PNG");
       effect = [createVideo(['movie_resize/Icon_B508_hitodama_A.mp4']),
                 createVideo(['movie_resize/Icon_B508_hitodama_B.mp4']),
                 createVideo(['movie_resize/Icon_B535_monsyo_A.mp4']),
@@ -85,9 +86,9 @@
       videoImage = createGraphics(960, 540);
       for(let i = 0; i<effect.length; i++){
         effect[i].hide();
-        effect[i].loop();
-        noStroke();
-        fill(0);
+        // effect[i].loop();
+        // noStroke();
+        // fill(0);
       }
       // effect[select].loop();
       // push();
@@ -95,6 +96,7 @@
       // pop();
       // fill(0);
       magic = effect[select]
+      magic.loop();
       // console.log(select);
       // console.log(magic);
       // console.log(effect[select+1])
