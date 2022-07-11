@@ -65,15 +65,15 @@
                 createVideo(['movie_resize/Icon_B508_hitodama_B.mp4']),
                 createVideo(['movie_resize/Icon_B535_monsyo_A.mp4']),
                 createVideo(['movie_resize/Icon_B535_monsyo_C.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_blue.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_red.mp4']),
-                createVideo(['movie_resize/Wipe_B080_biribiri_yellow.mp4']),
                 createVideo(['movie_resize/Wipe_B081_sasaru_EFX_blue.mp4']),
                 createVideo(['movie_resize/Wipe_B081_sasaru_EFX_red.mp4']),
                 createVideo(['movie_resize/Wipe_B081_sasaru_EFX_yellow.mp4']),
+                createVideo(['movie_resize/Wipe_B080_biribiri_blue.mp4']),
+                createVideo(['movie_resize/Wipe_B080_biribiri_red.mp4']),
+                createVideo(['movie_resize/Wipe_B080_biribiri_yellow.mp4']),
                 createVideo(['movie_resize/Wipe_B083_cyoi_EFX_T.mp4']),
                 createVideo(['movie_resize/Wipe_B086_cyoi_EFX_X.mp4']),
-                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_Y.mp4'])
+                createVideo(['movie_resize/Wipe_B086_cyoi_EFX_Y.mp4']),
                ];
     }
 
@@ -163,82 +163,20 @@
       //
 
       if (keypointsHand.length > 0) {
-        
-        if (select != 2 && select != 3){
-          finger();
-        } else {
-          const pos = keypointsHand[0][9];
-
-          const size = {
-            bottom_pinky: keypointsHand[0][0],
-            thumb_bottom: keypointsHand[0][2],
-            index_bottom: keypointsHand[0][5],
-            pinky_bottom: keypointsHand[0][17],
-            thumb_top: keypointsHand[0][4],
-            index_top: keypointsHand[0][8],
-            middle_top: keypointsHand[0][12],
-            ring_top: keypointsHand[0][16],
-            pinky_top: keypointsHand[0][20],
-          };
-
-          const distance = {
-            standard: dist(size.index_bottom.x, size.index_bottom.y, size.bottom_pinky.x, size.bottom_pinky.y),
-            dis_thumb: dist(size.thumb_top.x, size.thumb_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
-            dis_index: dist(size.index_top.x, size.index_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
-            dis_middle: dist(size.middle_top.x, size.middle_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
-            dis_ring: dist(size.ring_top.x, size.ring_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
-            dis_pinky: dist(size.pinky_top.x, size.pinky_top.y, size.bottom_pinky.x, size.bottom_pinky.y),
-          };
-
-          const thres = 1;
-          const dis_all = (distance.dis_thumb + distance.dis_index + distance.dis_middle + distance.dis_ring + distance.dis_pinky)/5;
-          const rate = 2000*dis_all/display_distance;
-
-          if (dis_all > distance.standard*thres){
-            blur_picture();
-            push();
-            
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              pos.x * displayWidth,
-              pos.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-        }
-      }
-
-      function fingers() {
-
-      }
-
-      function magic_circle() {
-
-      }
-
-      function finger() {
-        const displayWidth = width;
-        const displayHeight = (width * videoImage.height) / videoImage.width;
-        const display_distance = dist(0, 0, displayWidth, displayHeight);
-        const pos = keypointsHand[0][8];
-
         const key = {
-          bottom_pinky: keypointsHand[0][0],
-          thumb_top: keypointsHand[0][4],
-          index_top: keypointsHand[0][8],
-          middle_top: keypointsHand[0][12],
-          ring_top: keypointsHand[0][16],
-          pinky_top: keypointsHand[0][20],
-          thumb_bottom: keypointsHand[0][2],
-          index_bottom: keypointsHand[0][5],
+          bottom_pinky:  keypointsHand[0][0],
+          thumb_bottom:  keypointsHand[0][2],
+          thumb_top:     keypointsHand[0][4],
+          index_bottom:  keypointsHand[0][5],
+          index_top:     keypointsHand[0][8],
           middle_bottom: keypointsHand[0][9],
-          ring_bottom: keypointsHand[0][13],
-          pinky_bottom: keypointsHand[0][17],
-        };
+          middle_top:    keypointsHand[0][12],
+          ring_bottom:   keypointsHand[0][13],
+          ring_top:      keypointsHand[0][16],
+          pinky_bottom:  keypointsHand[0][17],
+          pinky_top:     keypointsHand[0][20],
+        }
 
-        
         const distance = {
           top_1: dist(key.thumb_top.x, key.thumb_top.y, key.pinky_bottom.x, key.pinky_bottom.y),
           top_2: dist(key.index_top.x, key.index_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
@@ -251,145 +189,107 @@
           bottom_4: dist(key.ring_bottom.x, key.ring_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
           bottom_5: dist(key.pinky_bottom.x, key.pinky_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
         };
+
+        if (select == 0 || select == 1) {
+          fingers();
+        } else if (select == 2 || select == 3) {
+          magic_circle();
+        } else if (select == 4 || select == 5 || select == 6) {
+          arrow();
+        } else {
+          finger();
+        }
+      }
+
+      function fingers() {
+        blur_picture();
+        draw_finger(distance.top_1, distance.bottom_1,1600,key.thumb_top)
+        draw_finger(distance.top_2, distance.bottom_2, 800,key.index_top)
+        draw_finger(distance.top_3, distance.bottom_3, 800,key.middle_top)
+        draw_finger(distance.top_4, distance.bottom_4, 800,key.ring_top)
+        draw_finger(distance.top_5, distance.bottom_5, 800,key.pinky_top)
         
-
-        if(select == 0 || select == 1){
-          blur_picture();
-          const thres_1 = 1.2;
-
-          if(distance.top_1 > distance.bottom_1*thres_1){
-            const rate = 1600*distance.top_1/display_distance;
+        function draw_finger(top,bottom,rate_num,pos) {
+          const thres_finger = 1.2;
+          if(top > bottom*thres_finger){
+            const rate = rate_num*distance.top/display_distance;
             push();
             // console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
-              key.thumb_top.x * displayWidth,
-              key.thumb_top.y * displayHeight,
+              pos.x * displayWidth,
+              pos.y * displayHeight,
               magic.width*rate,
               magic.height*rate);
             pop();
-          }
-          if(distance.top_2 > distance.bottom_2*thres_1){
-            const rate = 800*distance.top_2/display_distance;
-            push();
-            // console.log(magic.height*rate)
-            translate(0, -magic.height*rate/3);
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              key.index_top.x * displayWidth,
-              key.index_top.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-          if(distance.top_3 > distance.bottom_3*thres_1){
-            const rate = 800*distance.top_3/display_distance;
-            push();
-            // console.log(magic.height*rate)
-            translate(0, -magic.height*rate/3);
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              key.middle_top.x * displayWidth,
-              key.middle_top.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-          if(distance.top_4 > distance.bottom_4*thres_1){
-            const rate = 800*distance.top_4/display_distance;
-            push();
-            // console.log(magic.height*rate)
-            translate(0, -magic.height*rate/3);
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              key.ring_top.x * displayWidth,
-              key.ring_top.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-          if(distance.top_5 > distance.bottom_5*thres_1){
-            const rate = 800*distance.top_5/display_distance;
-            push();
-            // console.log(magic.height*rate)
-            translate(0, -magic.height*rate/3);
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              key.pinky_top.x * displayWidth,
-              key.pinky_top.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-
-        } 
-        else {
-          const far = 1.5
-          if (distance.top_3 < distance.bottom_3 
-          && distance.top_4 < distance.bottom_4
-          && distance.top_5 < distance.bottom_5){
-            const rate = 2500*distance.size/display_distance;
-            blur_picture();
-            // console.log(imagePNG);
-            if (select == 7 || select == 8 || select == 9) {
-              arrow();
-            }else{
-              push();
-              if (select == 0 || select == 1){
-                // console.log(magic.height*rate)
-                translate(0, -magic.height*rate/3);
-              }
-              imageMode(CENTER); // 中心座標を基準に設定
-              image(
-                magic,
-                pos.x * displayWidth,
-                pos.y * displayHeight,
-                magic.width*rate,
-                magic.height*rate);
-              pop();
-            }
           }
         }
       }
 
-      
+      function magic_circle() {
+        const thres_circle = 1.2;
+        const dis_all = (distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5)/5;
+        const dis_standard = (distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5)/5
+        const rate = 2000*dis_all/display_distance;
+
+        if (dis_all > dis_standard*thres_circle){
+          blur_picture();
+          push();
+          
+          imageMode(CENTER); // 中心座標を基準に設定
+          image(
+            magic,
+            key.middle_bottom.x * displayWidth,
+            key.middle_bottom.y * displayHeight,
+            magic.width*rate,
+            magic.height*rate);
+          pop();
+        }
+      }
+
+      function finger() {
+        if (distance.top_2 > distance.bottom_2
+         && distance.top_3 < distance.bottom_3 
+         && distance.top_4 < distance.bottom_4
+         && distance.top_5 < distance.bottom_5) {
+          const rate = 2500*distance.size/display_distance;
+          blur_picture();
+          push();
+          imageMode(CENTER); // 中心座標を基準に設定
+          image(
+            magic,
+            index_top.x * displayWidth,
+            index_top.y * displayHeight,
+            magic.width*rate,
+            magic.height*rate);
+          pop();
+        }
+      }
 
       function arrow() {
-        const displayWidth = width;
-        const displayHeight = (width * videoImage.height) / videoImage.width;
-        const display_distance = dist(0, 0, displayWidth, displayHeight);
-        const pos = keypointsHand[0][8];
+        if (distance.top_2 > distance.bottom_2
+         && distance.top_3 < distance.bottom_3 
+         && distance.top_4 < distance.bottom_4
+         && distance.top_5 < distance.bottom_5) {
+          x = key.index_top.x - key.index_bottom.x;
+          y = key.index_top.y - key.index_bottom.y;
+          dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
+          rad = Math.atan2(y, x)+Math.PI;
 
-        const key = {
-          index_top: keypointsHand[0][8],
-          index_bottom: keypointsHand[0][5]
-        };
-
-
-        x = key.index_top.x - key.index_bottom.x;
-        y = key.index_top.y - key.index_bottom.y;
-        dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
-        rad = Math.atan2(y, x)+Math.PI;
-        // console.log(rad * ( 180 / Math.PI ) );
-
-        const rate = 3500*dis/display_distance;
-        push();
-        translate(pos.x*displayWidth, pos.y*displayHeight);  // 指先に移動
-        rotate(rad+3*Math.PI/4);
-        // imageMode(CENTER); // 中心座標を基準に設定
-        image(
-          magic,
-          0,
-          0,
-          magic.width*rate,
-          magic.height*rate);
-        pop();
+          const rate = 3500*dis/display_distance;
+          push();
+          translate(key.index_top.x*displayWidth, key.index_top.y*displayHeight);  // 指先に移動
+          rotate(rad+3*Math.PI/4);
+          image(
+            magic,
+            0,
+            0,
+            magic.width*rate,
+            magic.height*rate);
+          pop();
+         }
       }
       // push();
       // fill(0, 0, 0);
