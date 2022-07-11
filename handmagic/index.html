@@ -201,96 +201,96 @@
       //   }
       // }
 
-      function fingers() {
-        blur_picture();
-        draw_finger(distance.top_1, distance.bottom_1,1600,key.thumb_top)
-        draw_finger(distance.top_2, distance.bottom_2, 800,key.index_top)
-        draw_finger(distance.top_3, distance.bottom_3, 800,key.middle_top)
-        draw_finger(distance.top_4, distance.bottom_4, 800,key.ring_top)
-        draw_finger(distance.top_5, distance.bottom_5, 800,key.pinky_top)
+      // function fingers() {
+      //   blur_picture();
+      //   draw_finger(distance.top_1, distance.bottom_1,1600,key.thumb_top)
+      //   draw_finger(distance.top_2, distance.bottom_2, 800,key.index_top)
+      //   draw_finger(distance.top_3, distance.bottom_3, 800,key.middle_top)
+      //   draw_finger(distance.top_4, distance.bottom_4, 800,key.ring_top)
+      //   draw_finger(distance.top_5, distance.bottom_5, 800,key.pinky_top)
         
-        function draw_finger(top,bottom,rate_num,pos) {
-          const thres_finger = 1.2;
-          if(top > bottom*thres_finger){
-            const rate = rate_num*distance.top/display_distance;
-            push();
-            // console.log(magic.height*rate)
-            translate(0, -magic.height*rate/3);
-            imageMode(CENTER); // 中心座標を基準に設定
-            image(
-              magic,
-              pos.x * displayWidth,
-              pos.y * displayHeight,
-              magic.width*rate,
-              magic.height*rate);
-            pop();
-          }
-        }
-      }
+      //   function draw_finger(top,bottom,rate_num,pos) {
+      //     const thres_finger = 1.2;
+      //     if(top > bottom*thres_finger){
+      //       const rate = rate_num*distance.top/display_distance;
+      //       push();
+      //       // console.log(magic.height*rate)
+      //       translate(0, -magic.height*rate/3);
+      //       imageMode(CENTER); // 中心座標を基準に設定
+      //       image(
+      //         magic,
+      //         pos.x * displayWidth,
+      //         pos.y * displayHeight,
+      //         magic.width*rate,
+      //         magic.height*rate);
+      //       pop();
+      //     }
+      //   }
+      // }
 
-      function magic_circle() {
-        const thres_circle = 1.2;
-        const dis_all = (distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5)/5;
-        const dis_standard = (distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5)/5
-        const rate = 2000*dis_all/display_distance;
+      // function magic_circle() {
+      //   const thres_circle = 1.2;
+      //   const dis_all = (distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5)/5;
+      //   const dis_standard = (distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5)/5
+      //   const rate = 2000*dis_all/display_distance;
 
-        if (dis_all > dis_standard*thres_circle){
-          blur_picture();
-          push();
+      //   if (dis_all > dis_standard*thres_circle){
+      //     blur_picture();
+      //     push();
           
-          imageMode(CENTER); // 中心座標を基準に設定
-          image(
-            magic,
-            key.middle_bottom.x * displayWidth,
-            key.middle_bottom.y * displayHeight,
-            magic.width*rate,
-            magic.height*rate);
-          pop();
-        }
-      }
+      //     imageMode(CENTER); // 中心座標を基準に設定
+      //     image(
+      //       magic,
+      //       key.middle_bottom.x * displayWidth,
+      //       key.middle_bottom.y * displayHeight,
+      //       magic.width*rate,
+      //       magic.height*rate);
+      //     pop();
+      //   }
+      // }
 
-      function finger() {
-        if (distance.top_2 > distance.bottom_2
-         && distance.top_3 < distance.bottom_3 
-         && distance.top_4 < distance.bottom_4
-         && distance.top_5 < distance.bottom_5) {
-          const rate = 2500*distance.size/display_distance;
-          blur_picture();
-          push();
-          imageMode(CENTER); // 中心座標を基準に設定
-          image(
-            magic,
-            index_top.x * displayWidth,
-            index_top.y * displayHeight,
-            magic.width*rate,
-            magic.height*rate);
-          pop();
-        }
-      }
+      // function finger() {
+      //   if (distance.top_2 > distance.bottom_2
+      //    && distance.top_3 < distance.bottom_3 
+      //    && distance.top_4 < distance.bottom_4
+      //    && distance.top_5 < distance.bottom_5) {
+      //     const rate = 2500*distance.size/display_distance;
+      //     blur_picture();
+      //     push();
+      //     imageMode(CENTER); // 中心座標を基準に設定
+      //     image(
+      //       magic,
+      //       index_top.x * displayWidth,
+      //       index_top.y * displayHeight,
+      //       magic.width*rate,
+      //       magic.height*rate);
+      //     pop();
+      //   }
+      // }
 
-      function arrow() {
-        if (distance.top_2 > distance.bottom_2
-         && distance.top_3 < distance.bottom_3 
-         && distance.top_4 < distance.bottom_4
-         && distance.top_5 < distance.bottom_5) {
-          x = key.index_top.x - key.index_bottom.x;
-          y = key.index_top.y - key.index_bottom.y;
-          dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
-          rad = Math.atan2(y, x)+Math.PI;
+      // function arrow() {
+      //   if (distance.top_2 > distance.bottom_2
+      //    && distance.top_3 < distance.bottom_3 
+      //    && distance.top_4 < distance.bottom_4
+      //    && distance.top_5 < distance.bottom_5) {
+      //     x = key.index_top.x - key.index_bottom.x;
+      //     y = key.index_top.y - key.index_bottom.y;
+      //     dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
+      //     rad = Math.atan2(y, x)+Math.PI;
 
-          const rate = 3500*dis/display_distance;
-          push();
-          translate(key.index_top.x*displayWidth, key.index_top.y*displayHeight);  // 指先に移動
-          rotate(rad+3*Math.PI/4);
-          image(
-            magic,
-            0,
-            0,
-            magic.width*rate,
-            magic.height*rate);
-          pop();
-         }
-      }
+      //     const rate = 3500*dis/display_distance;
+      //     push();
+      //     translate(key.index_top.x*displayWidth, key.index_top.y*displayHeight);  // 指先に移動
+      //     rotate(rad+3*Math.PI/4);
+      //     image(
+      //       magic,
+      //       0,
+      //       0,
+      //       magic.width*rate,
+      //       magic.height*rate);
+      //     pop();
+      //    }
+      // }
       // push();
       // fill(0, 0, 0);
       // rect(5, 5, 270, 80);
