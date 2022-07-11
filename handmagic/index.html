@@ -56,7 +56,9 @@
     });
     camera.start();
 
-    
+    let displayWidth;
+    let displayHeight;
+    let display_distance;
 
     // ビデオ読み込み
     function preload() {
@@ -89,6 +91,9 @@
       }
       magic = effect[select]
       magic.loop();
+      displayWidth = width;
+      displayHeight = (width * videoImage.height) / videoImage.width;
+      display_distance = dist(0, 0, displayWidth, displayHeight);
     }
 
     function change_effect(){
@@ -134,9 +139,6 @@
 
     function draw() {
       clear();
-      const displayWidth = width;
-      const displayHeight = (width * videoImage.height) / videoImage.width;
-      const display_distance = dist(0, 0, displayWidth, displayHeight);
 
       videoImage.drawingContext.drawImage(
         videoElement,
