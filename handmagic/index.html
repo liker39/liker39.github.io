@@ -106,7 +106,7 @@
         if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
           magic.pixels[i*4+3] = 0;
         } else {
-          magic.pixels[i*4+3] = 50;
+          magic.pixels[i*4+3] = 80;
         }
         
       }
@@ -151,7 +151,7 @@
         translate(width, 0);
         scale(-1, 1);
       }
-      fill(0,0,0,100)
+      fill(0,0,0,140)
       image(videoImage, 0, 0, displayWidth, displayHeight);
       pop();
 
@@ -163,6 +163,7 @@
       //
 
       if (keypointsHand.length > 0) {
+        
         if (select != 2 && select != 3){
           finger();
         } else {
@@ -207,6 +208,14 @@
             pop();
           }
         }
+      }
+
+      function fingers() {
+
+      }
+
+      function magic_circle() {
+
       }
 
       function finger() {
@@ -349,6 +358,7 @@
         }
       }
 
+      
 
       function arrow() {
         const displayWidth = width;
