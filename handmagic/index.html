@@ -162,44 +162,44 @@
       //
       //
 
-      if (keypointsHand.length > 0) {
-        const key = {
-          bottom_pinky:  keypointsHand[0][0],
-          thumb_bottom:  keypointsHand[0][2],
-          thumb_top:     keypointsHand[0][4],
-          index_bottom:  keypointsHand[0][5],
-          index_top:     keypointsHand[0][8],
-          middle_bottom: keypointsHand[0][9],
-          middle_top:    keypointsHand[0][12],
-          ring_bottom:   keypointsHand[0][13],
-          ring_top:      keypointsHand[0][16],
-          pinky_bottom:  keypointsHand[0][17],
-          pinky_top:     keypointsHand[0][20],
-        }
+      // if (keypointsHand.length > 0) {
+      //   const key = {
+      //     bottom_pinky:  keypointsHand[0][0],
+      //     thumb_bottom:  keypointsHand[0][2],
+      //     thumb_top:     keypointsHand[0][4],
+      //     index_bottom:  keypointsHand[0][5],
+      //     index_top:     keypointsHand[0][8],
+      //     middle_bottom: keypointsHand[0][9],
+      //     middle_top:    keypointsHand[0][12],
+      //     ring_bottom:   keypointsHand[0][13],
+      //     ring_top:      keypointsHand[0][16],
+      //     pinky_bottom:  keypointsHand[0][17],
+      //     pinky_top:     keypointsHand[0][20],
+      //   }
 
-        const distance = {
-          top_1: dist(key.thumb_top.x, key.thumb_top.y, key.pinky_bottom.x, key.pinky_bottom.y),
-          top_2: dist(key.index_top.x, key.index_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          top_3: dist(key.middle_top.x, key.middle_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          top_4: dist(key.ring_top.x, key.ring_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          top_5: dist(key.pinky_top.x, key.pinky_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_1: dist(key.index_bottom.x, key.index_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
-          bottom_2: dist(key.index_bottom.x, key.index_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_3: dist(key.middle_bottom.x, key.middle_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_4: dist(key.ring_bottom.x, key.ring_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_5: dist(key.pinky_bottom.x, key.pinky_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
-        };
+      //   const distance = {
+      //     top_1: dist(key.thumb_top.x, key.thumb_top.y, key.pinky_bottom.x, key.pinky_bottom.y),
+      //     top_2: dist(key.index_top.x, key.index_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     top_3: dist(key.middle_top.x, key.middle_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     top_4: dist(key.ring_top.x, key.ring_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     top_5: dist(key.pinky_top.x, key.pinky_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     bottom_1: dist(key.index_bottom.x, key.index_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
+      //     bottom_2: dist(key.index_bottom.x, key.index_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     bottom_3: dist(key.middle_bottom.x, key.middle_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     bottom_4: dist(key.ring_bottom.x, key.ring_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //     bottom_5: dist(key.pinky_bottom.x, key.pinky_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
+      //   };
 
-        if (select == 0 || select == 1) {
-          fingers();
-        } else if (select == 2 || select == 3) {
-          magic_circle();
-        } else if (select == 4 || select == 5 || select == 6) {
-          arrow();
-        } else {
-          finger();
-        }
-      }
+      //   if (select == 0 || select == 1) {
+      //     fingers();
+      //   } else if (select == 2 || select == 3) {
+      //     magic_circle();
+      //   } else if (select == 4 || select == 5 || select == 6) {
+      //     arrow();
+      //   } else {
+      //     finger();
+      //   }
+      // }
 
       function fingers() {
         blur_picture();
