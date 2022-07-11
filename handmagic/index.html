@@ -86,22 +86,9 @@
       videoImage = createGraphics(960, 540);
       for(let i = 0; i<effect.length; i++){
         effect[i].hide();
-        // effect[i].loop();
-        // noStroke();
-        // fill(0);
       }
-      // effect[select].loop();
-      // push();
-      // noStroke();
-      // pop();
-      // fill(0);
       magic = effect[select]
       magic.loop();
-      // console.log(select);
-      // console.log(magic);
-      // console.log(effect[select+1])
-      // magic.loadPixels();
-      // console.log(magic.pixels);
     }
 
     function change_effect(){
@@ -114,16 +101,12 @@
     function blur_picture(){
       // エフェクトの加工
       magic.loadPixels();
-      // console.log(magic.pixels);
       const imageData = magic.pixels
       for(var i = 0; i < (imageData.length)/4; i++) {
         if((imageData[i*4] < 100) && (imageData[i*4+1] > 150) && (imageData[i*4+2] < 100)) {
-          // magic.pixels[i*4] = 0;
-          // magic.pixels[i*4+1] = 0;
-          // magic.pixels[i*4+2] = 0;
           magic.pixels[i*4+3] = 0;
         } else {
-          magic.pixels[i*4+3] = 128;
+          magic.pixels[i*4+3] = 50;
         }
         
       }
@@ -151,7 +134,6 @@
 
     function draw() {
       clear();
-      // background("rgba(100, 100, 255, 0.5)");
       const displayWidth = width;
       const displayHeight = (width * videoImage.height) / videoImage.width;
       const display_distance = dist(0, 0, displayWidth, displayHeight);
@@ -163,15 +145,13 @@
         videoImage.width,
         videoImage.height
       );
-      // tint(100,100,100,255);
       
       push();
       if (isFlipped) {
         translate(width, 0);
         scale(-1, 1);
       }
-      // image(videoImage, 0, 0);
-      // fill(0,0,0,100)
+      fill(0,0,0,100)
       image(videoImage, 0, 0, displayWidth, displayHeight);
       pop();
 
