@@ -218,6 +218,8 @@
             push();
             // console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
+            console.log(-magic.height*rate/3);
+            console.log(displayWidth,displayHeight);
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
@@ -262,8 +264,8 @@
           imageMode(CENTER); // 中心座標を基準に設定
           image(
             magic,
-            index_top.x * displayWidth,
-            index_top.y * displayHeight,
+            key.index_top.x * displayWidth,
+            key.index_top.y * displayHeight,
             magic.width*rate,
             magic.height*rate);
           pop();
@@ -275,6 +277,7 @@
          && distance.top_3 < distance.bottom_3 
          && distance.top_4 < distance.bottom_4
          && distance.top_5 < distance.bottom_5) {
+          blur_picture();
           x = key.index_top.x - key.index_bottom.x;
           y = key.index_top.y - key.index_bottom.y;
           dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
