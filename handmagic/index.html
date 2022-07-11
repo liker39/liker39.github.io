@@ -85,18 +85,21 @@
       videoImage = createGraphics(960, 540);
       for(let i = 0; i<effect.length; i++){
         effect[i].hide();
+        effect[i].loop();
+        nostroke();
+        fill(0);
       }
-      effect[select].loop();
+      // effect[select].loop();
       // push();
       // noStroke();
       // pop();
       // fill(0);
       magic = effect[select]
-      console.log(select);
-      console.log(magic);
-      console.log(effect[select+1])
-      magic.loadPixels();
-      console.log(magic.pixels);
+      // console.log(select);
+      // console.log(magic);
+      // console.log(effect[select+1])
+      // magic.loadPixels();
+      // console.log(magic.pixels);
     }
 
     function change_effect(){
