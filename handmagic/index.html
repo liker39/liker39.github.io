@@ -214,12 +214,10 @@
         function draw_finger(top,bottom,rate_num,pos) {
           const thres_finger = 1.2;
           if(top > bottom*thres_finger){
-            const rate = rate_num*distance.top/display_distance;
+            const rate = rate_num*top/display_distance;
             push();
             // console.log(magic.height*rate)
             translate(0, -magic.height*rate/3);
-            console.log(-magic.height*rate/3);
-            console.log(displayWidth,displayHeight);
             imageMode(CENTER); // 中心座標を基準に設定
             image(
               magic,
@@ -258,7 +256,7 @@
          && distance.top_3 < distance.bottom_3 
          && distance.top_4 < distance.bottom_4
          && distance.top_5 < distance.bottom_5) {
-          const rate = 2500*distance.size/display_distance;
+          const rate = 2500*distance.bottom_2/display_distance;
           blur_picture();
           push();
           imageMode(CENTER); // 中心座標を基準に設定
