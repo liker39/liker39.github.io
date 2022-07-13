@@ -111,13 +111,9 @@
     }
 
     function change_effect(){
-      // magic.noLoop();
-      // effect[select].noLoop();
       magic.noLoop();
-      // select = (select + 1)%effect.length;
       effect[select].loop();
       magic = effect[select]
-      // magic.loop();
     }
 
     function blur_picture(){
@@ -202,7 +198,7 @@
           top_3: dist(key.middle_top.x, key.middle_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
           top_4: dist(key.ring_top.x, key.ring_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
           top_5: dist(key.pinky_top.x, key.pinky_top.y, key.bottom_pinky.x, key.bottom_pinky.y),
-          bottom_1: dist(key.index_bottom.x, key.index_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
+          bottom_1: dist(key.thumb_bottom.x, key.thumb_bottom.y, key.pinky_bottom.x, key.pinky_bottom.y),
           bottom_2: dist(key.index_bottom.x, key.index_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
           bottom_3: dist(key.middle_bottom.x, key.middle_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
           bottom_4: dist(key.ring_bottom.x, key.ring_bottom.y, key.bottom_pinky.x, key.bottom_pinky.y),
