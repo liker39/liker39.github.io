@@ -8,36 +8,26 @@ canvas {
   margin:0 auto;
 }
 
-/* 最初の画面の装飾 */
-body {
-  font-family:"Sawarabi Gothic";
-  font-size: 150%;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
-
 h1 {
-  /* padding: 0.5em;文字周りの余白 */
+  padding: 0.5em;/*文字周りの余白*/
   color: #010101;/*文字色*/
   background: #eaf3ff;/*背景色*/
   border-bottom: solid 3px #516ab6;/*下線*/
   font-size: 1.5em;
 }
 
-button {
-  border-radius: 50%;
-  line-height: 100px;
-  width: 100px;
-  height: 100px;
-  padding: 0;
-  -webkit-box-shadow: 0 5px 0 #e6d900;
-  box-shadow: 0 5px 0 #e6d900;
+button{
+  display:inline-block;
+  background:#d13415;
+  padding:10px 30px;
+  text-align:center;
+  color:#FFF;
+  margin:5px;
+  border:1px solid;
+  cursor:pointer;
 }
 
-button {
-  -webkit-transform: translate(0, 3px);
-  transform: translate(0, 3px);
-  -webkit-box-shadow: 0 2px 0 #e6d900;
-  box-shadow: 0 2px 0 #e6d900;
+div{
+  display: flex;
+  justify-content: center;
 }
