@@ -25,7 +25,7 @@ h1 {
   font-size: 1.5em;
 }
 
-.btn-effect {
+button {
   border-radius: 50%;
   line-height: 100px;
   width: 100px;
@@ -35,7 +35,7 @@ h1 {
   box-shadow: 0 5px 0 #e6d900;
 }
 
-.btn-effect:hover {
+button {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
   -webkit-box-shadow: 0 2px 0 #e6d900;
