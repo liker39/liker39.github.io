@@ -244,6 +244,13 @@
             pop();
           }
         }
+        push();
+        fill(0, 0, 0);
+        rect(5, 5, 270, 80);
+        textSize(14);
+        fill(255, 255, 255);
+        text("指を1本ずつ立ててください", 20, 30);
+        pop();
       }
 
       function magic_circle(key,distance) {
@@ -265,6 +272,13 @@
             magic.height*rate);
           pop();
         }
+        push();
+        fill(0, 0, 0);
+        rect(5, 5, 270, 80);
+        textSize(14);
+        fill(255, 255, 255);
+        text("手をパーにしてください", 20, 30);
+        pop();
       }
 
       function finger(key,distance) {
@@ -284,6 +298,13 @@
             magic.height*rate);
           pop();
         }
+        push();
+        fill(0, 0, 0);
+        rect(5, 5, 270, 80);
+        textSize(14);
+        fill(255, 255, 255);
+        text("人差し指だけ立ててください", 20, 30);
+        pop();
       }
 
       function arrow(key,distance) {
@@ -308,17 +329,16 @@
             magic.width*rate,
             magic.height*rate);
           pop();
-         }
+        }
+        push();
+        fill(0, 0, 0);
+        rect(5, 5, 270, 80);
+        textSize(14);
+        fill(255, 255, 255);
+        text("拳銃の形にしてください", 20, 30);
+        pop();
       }
-      // push();
-      // fill(0, 0, 0);
-      // rect(5, 5, 270, 80);
-      // textSize(14);
-      // fill(255, 255, 255);
-      // text("手をグーの状態でカメラにうつして", 20, 30);
-      // text("指を1本ずつ指を立ててください。", 20, 50);
-      // text("rキーで表示がリセットされます。", 20, 70);
-      // pop();
+      
     }
 
     
