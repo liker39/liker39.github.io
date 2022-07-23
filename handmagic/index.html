@@ -180,6 +180,26 @@
       //
       //
 
+      // 説明追加
+
+      let explain;
+      if (select == 0 || select == 1) {
+        explain = "指を1本ずつ立ててください";
+      } else if (select == 2 || select == 3) {
+        explain = "手をパーにしてください";
+      } else if (select == 4 || select == 5 || select == 6) {
+        explain = "人差し指だけ立ててください"
+      } else {
+        explain = "拳銃の形にしてください"
+      }
+      push();
+      fill(0, 0, 0);
+      rect(5, 5, 270, 40);
+      textSize(14);
+      fill(255, 255, 255);
+      text(explain, 20, 30);
+      pop();
+
       if (keypointsHand.length > 0) {
         const key = {
           bottom_pinky:  keypointsHand[0][0],
@@ -244,13 +264,6 @@
             pop();
           }
         }
-        push();
-        fill(0, 0, 0);
-        rect(5, 5, 270, 80);
-        textSize(14);
-        fill(255, 255, 255);
-        text("指を1本ずつ立ててください", 20, 30);
-        pop();
       }
 
       function magic_circle(key,distance) {
@@ -272,13 +285,6 @@
             magic.height*rate);
           pop();
         }
-        push();
-        fill(0, 0, 0);
-        rect(5, 5, 270, 80);
-        textSize(14);
-        fill(255, 255, 255);
-        text("手をパーにしてください", 20, 30);
-        pop();
       }
 
       function finger(key,distance) {
@@ -298,13 +304,6 @@
             magic.height*rate);
           pop();
         }
-        push();
-        fill(0, 0, 0);
-        rect(5, 5, 270, 80);
-        textSize(14);
-        fill(255, 255, 255);
-        text("人差し指だけ立ててください", 20, 30);
-        pop();
       }
 
       function arrow(key,distance) {
@@ -330,13 +329,6 @@
             magic.height*rate);
           pop();
         }
-        push();
-        fill(0, 0, 0);
-        rect(5, 5, 270, 80);
-        textSize(14);
-        fill(255, 255, 255);
-        text("拳銃の形にしてください", 20, 30);
-        pop();
       }
       
     }
