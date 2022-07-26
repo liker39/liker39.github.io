@@ -292,7 +292,7 @@
          && distance.top_3 < distance.bottom_3 
          && distance.top_4 < distance.bottom_4
          && distance.top_5 < distance.bottom_5) {
-          const rate = 2500*distance.bottom_2/display_distance;
+          const rate = 2500*distance.top_2/display_distance;
           blur_picture();
           push();
           imageMode(CENTER); // 中心座標を基準に設定
@@ -315,10 +315,10 @@
           blur_picture();
           x = key.index_top.x - key.index_bottom.x;
           y = key.index_top.y - key.index_bottom.y;
-          dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
+          // dis = dist(key.index_top.x, key.index_top.y, key.index_bottom.x, key.index_bottom.y)
           rad = Math.atan2(y, x)+Math.PI;
 
-          const rate = 3500*dis/display_distance;
+          const rate = 2500*distance.top_2/display_distance;
           push();
           translate(key.index_top.x*displayWidth, key.index_top.y*displayHeight);  // 指先に移動
           rotate(rad+3*Math.PI/4);
