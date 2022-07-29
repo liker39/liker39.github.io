@@ -29,12 +29,10 @@
     <button onClick="select=8;change_effect()">稲妻(赤)</button>
     <button onClick="select=9;change_effect()">稲妻(黄)</button>
     <button onClick="select=10;change_effect()">火</button>
-    <button onClick="select=11;change_effect()">電</button>
+    <button onClick="select=11;change_effect()">雷</button>
     <button onClick="select=12;change_effect()">風</button>
   </div>
   <br>
-  <!-- <button onClick="change_effect()">change</button> -->
-  <!-- <button onClick="select=1;change_effect()">red</button> -->
 
   <script>
     // ●Hands - mediapipe https://google.github.io/mediapipe/solutions/hands.html
@@ -79,7 +77,6 @@
 
     // ビデオ読み込み
     function preload() {
-      imagePNG = loadImage("./magic.PNG");
       effect = [createVideo(['movie_resize/Icon_B508_hitodama_A.mp4']),
                 createVideo(['movie_resize/Icon_B508_hitodama_B.mp4']),
                 createVideo(['movie_resize/Icon_B535_monsyo_A.mp4']),
@@ -169,7 +166,6 @@
         translate(width, 0);
         scale(-1, 1);
       }
-      fill(0,0,0,140)
       image(videoImage, 0, 0, displayWidth, displayHeight);
       pop();
 
@@ -268,9 +264,9 @@
 
       function magic_circle(key,distance) {
         const thres_circle = 1.5;
-        const dis_all = (distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5)/5;
-        const dis_standard = (distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5)/5
-        const rate = 2000*dis_all/display_distance;
+        const dis_all = distance.top_1 + distance.top_2 + distance.top_3 + distance.top_4 + distance.top_5;
+        const dis_standard = distance.bottom_1 + distance.bottom_2 + distance.bottom_3 + distance.bottom_4 + distance.bottom_5
+        const rate = 400*dis_all/display_distance;
 
         if (dis_all > dis_standard*thres_circle){
           blur_picture();
@@ -331,18 +327,7 @@
           pop();
         }
       }
-      
     }
-
-    
-
-    // リセット用　グーの状態でrが押されたとき
-    // document.addEventListener('keydown', (event) => {
-    //   if (event.key === "r") {
-        
-    //   }
-    // });
-
   </script>
 </body>
 
