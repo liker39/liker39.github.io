@@ -17,11 +17,13 @@
 
 <body>
   <h1>KOKUYOデモ</h1>
-  <!-- <div class="container"> -->
+  <div class="container">
     <video class="input_video"></video>
-    <!-- <canvas class="output_canvas" width="960px" height="540px"></canvas> -->
+    <canvas class="output_canvas" width="960px" height="540px"></canvas>
     <!-- <div class="landmark-grid-container"></div> -->
-  <!-- </div> -->
+    <h2><span id="direction" class="badge badge-primary">向き</span></h2>
+    <h2><span id="sample" class="badge badge-primary">動作</span></h2>
+  </div>
 
   <script type="module">
     const isFlipped = true;
@@ -29,25 +31,27 @@
     let keypointsPose = [];
 
     const videoElement = document.getElementsByClassName('input_video')[0];
-    // const canvasElement = document.getElementsByClassName('output_canvas')[0];
-    // const canvasCtx = canvasElement.getContext('2d');
-    // videoElement.style.display = "none";
+    const canvasElement = document.getElementsByClassName('output_canvas')[0];
+    const canvasCtx = canvasElement.getContext('2d');
+    videoElement.style.display = "none";
 
     function onResults(results) {
         keypointsPose = results.poseLandmarks;
-        // canvasCtx.save();
-        // canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-        // canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.save();
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
         
-        // canvasCtx.drawImage(
-        //     results.image, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.drawImage(
+            results.image, 0, 0, canvasElement.width, canvasElement.height);
         
-        // canvasCtx.globalCompositeOperation = 'source-over';
-        // drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
-        //                 {color: '#00FF00', lineWidth: 4});
-        // drawLandmarks(canvasCtx, results.poseLandmarks,
-        //                 {color: '#FF0000', lineWidth: 2});
-        // canvasCtx.restore();
+        canvasCtx.globalCompositeOperation = 'source-over';
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
+                        {color: '#00FF00', lineWidth: 4});
+        drawLandmarks(canvasCtx, results.poseLandmarks,
+                        {color: '#FF0000', lineWidth: 2});
+        canvasCtx.restore();
+
+        judge();
     
     }
     
@@ -78,111 +82,89 @@
     });
     camera.start();
 
-    // let displayWidth;
-    // let displayHeight;
-    let videoImage;
-
-    function setup() {
-      createCanvas(960, 600);
-      videoImage = createGraphics(960, 540);
-      console.log("aaaaa");
+    // 距離計算
+    function dist(x1,y1,x2,y2){
+        return Math.sqrt( Math.pow( x2-x1, 2 ) + Math.pow( y2-y1, 2 ) ) ;
     }
 
-    function draw() {
-      clear();
-      background("rgba(100, 100, 255, 0.2)");
+    let direction = document.getElementById("direction");
+    let obj = document.getElementById("sample");
+    // 動作判定　向き判定
+    function judge() {
+        if(keypointsPose.length > 0){
+            console.log('s');
+            let motion;
+            const key = {
+                nose:            keypointsPose[0],
+                left_eye_inner:  keypointsPose[1],
+                left_eye:        keypointsPose[2],
+                left_eye_outer:  keypointsPose[3],
+                right_eye_inner: keypointsPose[4],
+                right_eye:       keypointsPose[5],
+                right_eye_outer: keypointsPose[6],
+                left_ear:        keypointsPose[7],
+                right_ear:       keypointsPose[8],
+            }
+            // console.log(key.nose);
 
-      videoImage.drawingContext.drawImage(
-        videoElement,
-        0,
-        0,
-        videoImage.width,
-        videoImage.height
-      );
-
-      push();
-      if (isFlipped) {
-        translate(width, 0);
-        scale(-1, 1);
-      }
-      // image(videoImage, 0, 0);
-      displayWidth = width;
-      displayHeight = (width * videoImage.height) / videoImage.width;
-      image(videoImage, 0, 0, displayWidth, displayHeight);
-      pop();
-
-      if(keypointsPose.length > 0){
-        console.log('s');
-        let motion;
-        const key = {
-            nose:            keypointsPose[0][0],
-            left_eye_inner:  keypointsPose[0][1],
-            left_eye:        keypointsPose[0][2],
-            left_eye_outer:  keypointsPose[0][3],
-            right_eye_inner: keypointsPose[0][4],
-            right_eye:       keypointsPose[0][5],
-            right_eye_outer: keypointsPose[0][6],
-            left_ear:        keypointsPose[0][7],
-            right_ear:       keypointsPose[0][8],
-        }
-
-        const distance = {
-            nose_left_inner:  dist(key.nose.x, key.nose.y, key.left_eye_inner.x, key.left_eye_inner.y),
-            nose_right_inner: dist(key.nose.x, key.nose.y, key.right_eye_inner.x, key.right_eye_inner.y),
-            left_eye_size:    dist(key.left_eye_inner.x, key.left_eye_inner.y, key.left_eye_outer.x, key.left_eye_outer.y),
-            right_eye_size:   dist(key.right_eye_inner.x, key.right_eye_inner.y, key.right_eye_outer.x, key.right_eye_outer.y),
-            left_ear_outer:   dist(key.left_ear.x, key.left_ear.y, key.left_eye_outer.x, key.left_eye_outer.y),
-            right_ear_outer:  dist(key.right_ear.x, key.right_ear.y, key.right_eye_outer.x, key.right_eye_outer.y),
-        }
-
-        if(distance.nose_left_inner/2 < distance.left_eye_size && 
-        distance.nose_right_inner/2 < distance.right_eye_size){
-            // 正面
+            const distance = {
+                nose_left_inner:  dist(key.nose.x, key.nose.y, key.left_eye_inner.x, key.left_eye_inner.y),
+                nose_right_inner: dist(key.nose.x, key.nose.y, key.right_eye_inner.x, key.right_eye_inner.y),
+                left_eye_size:    dist(key.left_eye_inner.x, key.left_eye_inner.y, key.left_eye_outer.x, key.left_eye_outer.y),
+                right_eye_size:   dist(key.right_eye_inner.x, key.right_eye_inner.y, key.right_eye_outer.x, key.right_eye_outer.y),
+                left_ear_outer:   dist(key.left_ear.x, key.left_ear.y, key.left_eye_outer.x, key.left_eye_outer.y),
+                right_ear_outer:  dist(key.right_ear.x, key.right_ear.y, key.right_eye_outer.x, key.right_eye_outer.y),
+            }
             let rate = (distance.nose_left_inner + distance.nose_right_inner)/2;
-            if(key.left_ear.y - key.left_outer.y > rate/2 &&
-            key.right_ear.y - key.right_ear.y > rate/2) {
-                motion = "talking";
-            }
-            else{
-                motion = "working";
-            }
-            console.log('center');
-        }
 
-        if(distance.left_ear_outer < distance.nose_left_inner/2){
-            // 左向いてる
-            if(key.left_ear.y - key.left_outer.y > rate/4) {
-                motion = "talking";
-            }
-            else{
-                motion = "working";
-            }
-            console.log('left');
-        }
+            
 
-        if(distance.right_ear_outer < distance.nose_right_inner/2){
-            // 右向いてる
-            if(key.right_ear.y - key.right_outer.y > rate/4) {
-                motion = "talking";
+            if(distance.left_eye_size < distance.right_eye_size/1.5){
+                // 右向いてる
+                if(key.left_ear.y - key.left_eye_outer.y > rate/4) {
+                    motion = "talking";
+                }
+                else{
+                    motion = "working";
+                }
+                console.log('right');
+                console.log(motion);
+                obj.textContent = motion;
+                direction.textContent = "右向き";
+            }
+            else if(distance.right_eye_size < distance.left_eye_size/1.5){
+                // 左向いてる
+                if(key.right_ear.y - key.right_eye_outer.y > rate/4) {
+                    motion = "talking";
+                }
+                else{
+                    motion = "working";
+                }
+                console.log('left');
+                console.log(motion);
+                obj.textContent = motion;
+                direction.textContent = "左向き";
             }
             else{
-                motion = "working";
+                // 正面
+                
+                // 
+                if(key.left_ear.y - key.left_eye_outer.y > rate/3 &&
+                    key.right_ear.y - key.right_eye_outer.y > rate/3) {
+                    motion = "talking";
+                }
+                else{
+                    motion = "working";
+                }
+                console.log('center');
+                console.log(motion);
+                obj.textContent = motion;
+                direction.textContent = "正面";
             }
-            console.log('right');
         }
     }
 
-    //   push();
-    //   fill(0, 0, 0);
-    //   rect(5, 5, 270, 80);
-    //   textSize(14);
-    //   fill(255, 255, 255);
-    //   text("手をグーの状態でカメラにうつして", 20, 30);
-    //   text("指を1本ずつ指を立ててください。", 20, 50);
-    //   text("rキーで表示がリセットされます。", 20, 70);
-    //   pop();
-    }
-
+    
     
     </script>
 </body>
