@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>KOKUYO</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <h1>KOKUYOデモ</h1>
+  <!-- <div class="container"> -->
+    <video class="input_video"></video>
+    <!-- <canvas class="output_canvas" width="960px" height="540px"></canvas> -->
+    <!-- <div class="landmark-grid-container"></div> -->
+  <!-- </div> -->
+
+  <script type="module">
+    const isFlipped = true;
+    
+    let keypointsPose = [];
+
+    const videoElement = document.getElementsByClassName('input_video')[0];
+    // const canvasElement = document.getElementsByClassName('output_canvas')[0];
+    // const canvasCtx = canvasElement.getContext('2d');
+    videoElement.style.display = "none";
+
+    function onResults(results) {
+        keypointsPose = results.poseLandmarks;
+        // canvasCtx.save();
+        // canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        // canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+        
+        // canvasCtx.drawImage(
+        //     results.image, 0, 0, canvasElement.width, canvasElement.height);
+        
+        // canvasCtx.globalCompositeOperation = 'source-over';
+        // drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
+        //                 {color: '#00FF00', lineWidth: 4});
+        // drawLandmarks(canvasCtx, results.poseLandmarks,
+        //                 {color: '#FF0000', lineWidth: 2});
+        // canvasCtx.restore();
+    
+    }
+    
+
+    const pose = new Pose({
+        locateFile: (file) => {
+            return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+        },
+    });
+
+    pose.setOptions({
+      selfieMode: isFlipped,
+      modelComplexity: 1,
+      smoothLandmarks: true,
+      enableSegmentation: true,
+      smoothSegmentation: true,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+    pose.onResults(onResults);
+    
+    const camera = new Camera(videoElement, {
+      onFrame: async () => {
+        await pose.send({image: videoElement});
+      },
+      width: 960,
+      height: 540
+    });
+    camera.start();
+
+    // let displayWidth;
+    // let displayHeight;
+    let videoImage;
+
+    function setup() {
+      createCanvas(960, 600);
+      videoImage = createGraphics(960, 540);
+      console.log("aaaaa");
+    }
+
+    function draw() {
+      clear();
+      background("rgba(100, 100, 255, 0.2)");
+
+      videoImage.drawingContext.drawImage(
+        videoElement,
+        0,
+        0,
+        videoImage.width,
+        videoImage.height
+      );
+
+      push();
+      if (isFlipped) {
+        translate(width, 0);
+        scale(-1, 1);
+      }
+      // image(videoImage, 0, 0);
+      displayWidth = width;
+      displayHeight = (width * videoImage.height) / videoImage.width;
+      image(videoImage, 0, 0, displayWidth, displayHeight);
+      pop();
+
+      if(keypointsPose.length > 0){
+        console.log('s');
+        let motion;
+        const key = {
+            nose:            keypointsPose[0][0],
+            left_eye_inner:  keypointsPose[0][1],
+            left_eye:        keypointsPose[0][2],
+            left_eye_outer:  keypointsPose[0][3],
+            right_eye_inner: keypointsPose[0][4],
+            right_eye:       keypointsPose[0][5],
+            right_eye_outer: keypointsPose[0][6],
+            left_ear:        keypointsPose[0][7],
+            right_ear:       keypointsPose[0][8],
+        }
+
+        const distance = {
+            nose_left_inner:  dist(key.nose.x, key.nose.y, key.left_eye_inner.x, key.left_eye_inner.y),
+            nose_right_inner: dist(key.nose.x, key.nose.y, key.right_eye_inner.x, key.right_eye_inner.y),
+            left_eye_size:    dist(key.left_eye_inner.x, key.left_eye_inner.y, key.left_eye_outer.x, key.left_eye_outer.y),
+            right_eye_size:   dist(key.right_eye_inner.x, key.right_eye_inner.y, key.right_eye_outer.x, key.right_eye_outer.y),
+            left_ear_outer:   dist(key.left_ear.x, key.left_ear.y, key.left_eye_outer.x, key.left_eye_outer.y),
+            right_ear_outer:  dist(key.right_ear.x, key.right_ear.y, key.right_eye_outer.x, key.right_eye_outer.y),
+        }
+
+        if(distance.nose_left_inner/2 < distance.left_eye_size && 
+        distance.nose_right_inner/2 < distance.right_eye_size){
+            // 正面
+            let rate = (distance.nose_left_inner + distance.nose_right_inner)/2;
+            if(key.left_ear.y - key.left_outer.y > rate/2 &&
+            key.right_ear.y - key.right_ear.y > rate/2) {
+                motion = "talking";
+            }
+            else{
+                motion = "working";
+            }
+            console.log('center');
+        }
+
+        if(distance.left_ear_outer < distance.nose_left_inner/2){
+            // 左向いてる
+            if(key.left_ear.y - key.left_outer.y > rate/4) {
+                motion = "talking";
+            }
+            else{
+                motion = "working";
+            }
+            console.log('left');
+        }
+
+        if(distance.right_ear_outer < distance.nose_right_inner/2){
+            // 右向いてる
+            if(key.right_ear.y - key.right_outer.y > rate/4) {
+                motion = "talking";
+            }
+            else{
+                motion = "working";
+            }
+            console.log('right');
+        }
+    }
+
+    //   push();
+    //   fill(0, 0, 0);
+    //   rect(5, 5, 270, 80);
+    //   textSize(14);
+    //   fill(255, 255, 255);
+    //   text("手をグーの状態でカメラにうつして", 20, 30);
+    //   text("指を1本ずつ指を立ててください。", 20, 50);
+    //   text("rキーで表示がリセットされます。", 20, 70);
+    //   pop();
+    }
+
+    
+    </script>
+</body>
+
+</html>
