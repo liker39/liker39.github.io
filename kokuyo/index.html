@@ -10,19 +10,36 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
   <link rel="stylesheet" type="text/css" href="style.css">
   <title>KOKUYO</title>
   <meta charset="utf-8" />
 </head>
 
 <body>
-  <h1>KOKUYOデモ</h1>
-  <div class="container">
-    <video class="input_video"></video>
-    <canvas class="output_canvas" width="960px" height="540px"></canvas>
-    <!-- <div class="landmark-grid-container"></div> -->
-    <h2><span id="direction" class="badge badge-primary">向き</span></h2>
-    <h2><span id="sample" class="badge badge-primary">動作</span></h2>
+  
+  <div id="wrapper">
+    <div id="header">
+        <h1>KOKUYOデモ</h1>
+    </div>
+
+    <div id="main">
+        <div id="input">
+            <video class="input_video"></video>
+        </div>
+        
+        <div id="movie">
+            <canvas class="output_canvas" width="640px" height="400px"></canvas>
+            <!-- <div class="landmark-grid-container"></div> -->
+            <h2><span id="direction" class="badge badge-primary">向き</span></h2>
+            <h2><span id="sample" class="badge badge-primary">動作</span></h2>
+        </div>
+
+        <div id="graph">
+            <canvas id="myChart" width="480" height="480"></canvas>
+        </div>
+    </div>
   </div>
 
   <script type="module">
@@ -34,12 +51,14 @@
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
     videoElement.style.display = "none";
+    
 
+    let judge_count = 0;
     function onResults(results) {
         keypointsPose = results.poseLandmarks;
         canvasCtx.save();
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-        canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+        // canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
         
         canvasCtx.drawImage(
             results.image, 0, 0, canvasElement.width, canvasElement.height);
@@ -51,11 +70,18 @@
                         {color: '#FF0000', lineWidth: 2});
         canvasCtx.restore();
 
-        judge();
+        if (typeof keypointsPose !== 'undefined') {
+            judge();
+            if (judge_count%30==0){
+                console.log('--------------------------------')
+                line_update();
+            }
+            judge_count++;
+        }
+        
     
     }
     
-
     const pose = new Pose({
         locateFile: (file) => {
             return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
@@ -77,10 +103,11 @@
       onFrame: async () => {
         await pose.send({image: videoElement});
       },
-      width: 960,
-      height: 540
+      width: 640,
+      height: 400
     });
     camera.start();
+    
 
     // 距離計算
     function dist(x1,y1,x2,y2){
@@ -89,80 +116,209 @@
 
     let direction = document.getElementById("direction");
     let obj = document.getElementById("sample");
+
+    let motion_data = [0,0];
+    let talking = 0;
+    let working = 0;
+    
+    let time_motion=0;
+
     // 動作判定　向き判定
     function judge() {
-        if(keypointsPose.length > 0){
-            console.log('s');
-            let motion;
-            const key = {
-                nose:            keypointsPose[0],
-                left_eye_inner:  keypointsPose[1],
-                left_eye:        keypointsPose[2],
-                left_eye_outer:  keypointsPose[3],
-                right_eye_inner: keypointsPose[4],
-                right_eye:       keypointsPose[5],
-                right_eye_outer: keypointsPose[6],
-                left_ear:        keypointsPose[7],
-                right_ear:       keypointsPose[8],
-            }
-            // console.log(key.nose);
+        // console.log(keypointsPose);
+        let motion;
+        const key = {
+            nose:            keypointsPose[0],
+            left_eye_inner:  keypointsPose[1],
+            left_eye:        keypointsPose[2],
+            left_eye_outer:  keypointsPose[3],
+            right_eye_inner: keypointsPose[4],
+            right_eye:       keypointsPose[5],
+            right_eye_outer: keypointsPose[6],
+            left_ear:        keypointsPose[7],
+            right_ear:       keypointsPose[8],
+        }
+        // console.log(key.nose);
 
-            const distance = {
-                nose_left_inner:  dist(key.nose.x, key.nose.y, key.left_eye_inner.x, key.left_eye_inner.y),
-                nose_right_inner: dist(key.nose.x, key.nose.y, key.right_eye_inner.x, key.right_eye_inner.y),
-                left_eye_size:    dist(key.left_eye_inner.x, key.left_eye_inner.y, key.left_eye_outer.x, key.left_eye_outer.y),
-                right_eye_size:   dist(key.right_eye_inner.x, key.right_eye_inner.y, key.right_eye_outer.x, key.right_eye_outer.y),
-                left_ear_outer:   dist(key.left_ear.x, key.left_ear.y, key.left_eye_outer.x, key.left_eye_outer.y),
-                right_ear_outer:  dist(key.right_ear.x, key.right_ear.y, key.right_eye_outer.x, key.right_eye_outer.y),
-            }
-            let rate = (distance.nose_left_inner + distance.nose_right_inner)/2;
+        const distance = {
+            nose_left_inner:  dist(key.nose.x, key.nose.y, key.left_eye_inner.x, key.left_eye_inner.y),
+            nose_right_inner: dist(key.nose.x, key.nose.y, key.right_eye_inner.x, key.right_eye_inner.y),
+            left_eye_size:    dist(key.left_eye_inner.x, key.left_eye_inner.y, key.left_eye_outer.x, key.left_eye_outer.y),
+            right_eye_size:   dist(key.right_eye_inner.x, key.right_eye_inner.y, key.right_eye_outer.x, key.right_eye_outer.y),
+            left_ear_outer:   dist(key.left_ear.x, key.left_ear.y, key.left_eye_outer.x, key.left_eye_outer.y),
+            right_ear_outer:  dist(key.right_ear.x, key.right_ear.y, key.right_eye_outer.x, key.right_eye_outer.y),
+        }
+        let rate = (distance.nose_left_inner + distance.nose_right_inner)/2;
 
-            
+        
 
-            if(distance.left_eye_size < distance.right_eye_size/1.5){
-                // 右向いてる
-                if(key.left_ear.y - key.left_eye_outer.y > rate/4) {
-                    motion = "talking";
-                }
-                else{
-                    motion = "working";
-                }
-                console.log('right');
-                console.log(motion);
-                obj.textContent = motion;
-                direction.textContent = "右向き";
-            }
-            else if(distance.right_eye_size < distance.left_eye_size/1.5){
-                // 左向いてる
-                if(key.right_ear.y - key.right_eye_outer.y > rate/4) {
-                    motion = "talking";
-                }
-                else{
-                    motion = "working";
-                }
-                console.log('left');
-                console.log(motion);
-                obj.textContent = motion;
-                direction.textContent = "左向き";
+        if(distance.left_eye_size < distance.right_eye_size/1.5){
+            // 右向いてる
+            if(key.left_ear.y - key.left_eye_outer.y > rate/3) {
+                motion = "talking";
+                motion_data[0] += 1;
+                time_motion = 1;
             }
             else{
-                // 正面
-                
-                // 
-                if(key.left_ear.y - key.left_eye_outer.y > rate/3 &&
-                    key.right_ear.y - key.right_eye_outer.y > rate/3) {
-                    motion = "talking";
-                }
-                else{
-                    motion = "working";
-                }
-                console.log('center');
-                console.log(motion);
-                obj.textContent = motion;
-                direction.textContent = "正面";
+                motion = "working";
+                motion_data[1] += 1;
+                time_motion = 0;
             }
+            // console.log('right');
+            // console.log(motion);
+            obj.textContent = motion;
+            direction.textContent = "右向き";
         }
+        else if(distance.right_eye_size < distance.left_eye_size/1.5){
+            // 左向いてる
+            if(key.right_ear.y - key.right_eye_outer.y > rate/3) {
+                motion = "talking";
+                motion_data[0] += 1;
+                time_motion = 1;
+            }
+            else{
+                motion = "working";
+                motion_data[1] += 1;
+                time_motion = 0;
+            }
+            // console.log('left');
+            // console.log(motion);
+            obj.textContent = motion;
+            direction.textContent = "左向き";
+        }
+        else{
+            // 正面
+            if(key.left_ear.y - key.left_eye_outer.y > rate/3 &&
+                key.right_ear.y - key.right_eye_outer.y > rate/2) {
+                motion = "talking";
+                motion_data[0] += 1;
+                time_motion = 1;
+            }
+            else{
+                motion = "working";
+                motion_data[1] += 1;
+                time_motion = 0;
+            }
+            // console.log('center');
+            // console.log(motion);
+            obj.textContent = motion;
+            direction.textContent = "正面";
+        }
+        
     }
+
+    var canvas_myChart = document.getElementById("myChart");
+    var ctx_myChart = canvas_myChart.getContext('2d');
+    var chart;
+    let time_count = 0;
+    var time_label = [0];
+    var time_data = [0];
+    line_graph();
+    function line_graph(){
+        chart = new Chart(ctx_myChart, {
+            // 作成したいチャートのタイプ
+            type: 'line',
+
+            // データセットのデータ
+            data: {
+                labels: time_label,
+                datasets: [{
+                    label: "motion",
+                    // backgroundColor: ['#F7464A','#46BFBD'],
+                    borderColor: 'rgb(255, 99, 132)',
+                    // borderColor: Utils.CHART_COLORS.red,
+                    // backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+                    data: time_data,
+                }]
+            },
+
+            // ここに設定オプションを書きます
+            options: {
+                // duration: 0,
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'motion'
+                    }
+                }
+            }
+        });
+        
+        // chart.canvas.parentNode.style.height = '480px';
+        // chart.canvas.parentNode.style.width = '480px';
+        canvas_myChart.width=480;
+        canvas_myChart.height=480;
+        console.log(chart.canvas)
+    }
+    function graph(){
+        chart = new Chart(ctx_myChart, {
+            // 作成したいチャートのタイプ
+            type: 'doughnut',
+
+            // データセットのデータ
+            data: {
+                labels: ["Talking", "Working"],
+                datasets: [{
+                    label: "初めてのデータセット",
+                    backgroundColor: ['#F7464A','#46BFBD'],
+                    // borderColor: 'rgb(255, 99, 132)',
+                    data: motion_data,
+                }]
+            },
+
+            // ここに設定オプションを書きます
+            options: {
+                // duration: 0,
+                responsive: false,
+                
+            }
+        });
+        
+        // chart.canvas.parentNode.style.height = '480px';
+        // chart.canvas.parentNode.style.width = '480px';
+        canvas_myChart.width=480;
+        canvas_myChart.height=480;
+        console.log(chart.canvas)
+        // timerId_myChart=setInterval(
+        //     function(){
+        //         // chart.canvas.parentNode.style.height = canvas_myChart.height;
+        //         // chart.canvas.parentNode.style.height = '480px';
+        //         // chart.canvas.parentNode.style.width = '480px';
+                
+        //         chart.data.datasets.forEach((dataset) => {
+        //             // console.log(dataset.data)
+        //             dataset.data[0]++;
+        //         });
+        //         chart.update();
+        //     },
+        //     1000
+        // );
+    }
+
+    function update() {
+        chart.data.datasets.forEach((dataset) => {
+            // console.log(dataset.data)
+            dataset.data=motion_data;
+        });
+        chart.update();
+    }
+
+    
+    function line_update() {
+        chart.data.datasets.forEach((dataset) => {
+            // console.log(dataset.data)
+            time_count += 1;
+            time_label.push(time_count);
+            time_data.push(time_motion);
+            dataset.data=time_data;
+        });
+        chart.update();
+    }
+
 
     
     

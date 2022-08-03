@@ -1,29 +1,61 @@
 html, body {
-margin: 0 auto;
-padding: 0;
-text-align: center;
-background-color: #d7e9ff;
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
+	background-color: #d7e9ff;
 }
 
-/* #v{
+#input{
 display:none;
-} */
+}
 
-h1 {
-	padding: 0.5em;/*文字周りの余白*/
+#wrapper { /*子要素がpositionを指定する時は親要素にもposition指定*/
+	position: relative;
+	top: 0;
+	left: 0;       /*  top:0; left:0; 省略可　*/
+	width: 100%;
+	margin: 0 auto; 
+	}
+
+#header {
+	padding: 0.3em;/*文字周りの余白*/
 	color: #fff9f9;/*文字色*/
 	background: #476994;/*背景色*/
 	border-bottom: solid 3px #051132;/*下線*/
-	font-size: 1.5em;
+	font-size: 1.3em;
+	/* width: 100%;
+	height: 50px; */
 }
 
-#screen{
-    margin: 0 auto;
-	width:480px;
-	height:480px;
-	background-color:#000000;
+#main{
+	background: #ceaaaa;
+	width: 100%;
+	/* height: auto; */
 }
-button{
-	width:100px;
-	height:50px;
+
+#movie{
+	position: absolute;
+	/* top: 50px;  */
+	left: 0;  /* position 指定の親要素 wrapperが基準になります。*/
+	width: 50%;
+	padding: 0.5em;/*文字周りの余白*/
 }
+
+#graph{
+	position: absolute;
+	/* top: 50px;  */
+	right: 0;  /* position 指定の親要素 wrapperが基準になります。*/
+	width: 40%;
+	padding: 0.5em;/*文字周りの余白*/
+	text-align: center;
+}
+
+#myChart{
+	display: block;
+	height: 480px;
+	width: 480px;
+}
+
+/* #myChart{
+	background: #c7633b;
+} */
