@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <title>画像をリアルタイムで更新</title>
+    <style>
+      img {
+        width: 800px;
+        height: 500px;
+        margin-left: 40px;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <img id="picture" src="test.png">
+
+    <script>
+      var count = 0;
+      function changePic() {
+          var picDiv = document.getElementById("picture");
+          // picDiv.innerHTML = "<img src=" + picName[i] + "?" + (new Date() - 0)>";
+          picDiv.src="test.png?"+ (new Date() - 0);
+
+          $('div').load('result.txt?'+ (new Date() - 0), function(data, status, object){
+            console.log(data)
+          });
+          
+          count = (count+1)%2;
+          setTimeout(changePic, 1000);
+      }
+      window.onload = changePic;
+
+    </script>
+  </body>
+</html>
